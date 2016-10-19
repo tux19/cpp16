@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
+#include <vector>
 template<typename T>
 class pvector
 {
 private:
-	std::string filename;
 	std::vector<T> vec;
+	std::string filename;
 
 	void write_vector();
 	void read_vector();
@@ -32,7 +33,7 @@ public:
 	void resize(unsigned int size);
 
 	T & operator[](unsigned int index);
-	pvector<T> & operator=(const pvector<T> &);
+	pvector<T> & operator=(const pvector<T> &v);
 	void clear();
 };
 
