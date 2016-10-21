@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "pvector.h"
 #include <fstream>
+#include <vector>
 
 template <typename T>
 void pvector<T>::write_vector()
@@ -19,7 +20,7 @@ void pvector<T>::write_vector()
 }
 
 template <typename T>
-void pvector<T>::read_vector()
+bool pvector<T>::read_vector()
 {
 	std::ifstream ifs(filename);
 	// File exists
@@ -51,11 +52,29 @@ void pvector<T>::read_vector()
 template <typename T>
 pvector<T>::pvector(std::string fname)
 {
+	if (file_exists(fname)) {
+		read_vector();
+	}
+	else
+	{
+		filename = fname;
+		vec = new std:vector();
+	}
 }
 
 template <typename T>
 pvector<T>::pvector(std::string fname, unsigned size)
 {
+	if (file_exists(fname) && read_vector()) {
+		if (vec.capacity() < size) {
+			vec.reserve(size);
+		}
+	}
+	else
+	{
+		filename = fname;
+		vec = new std:vector(size);
+	}
 }
 
 template <typename T>
