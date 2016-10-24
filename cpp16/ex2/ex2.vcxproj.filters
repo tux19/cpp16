@@ -47,9 +47,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pvector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="inline_ex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

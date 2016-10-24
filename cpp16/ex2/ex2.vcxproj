@@ -156,7 +156,6 @@
   <ItemGroup>
     <ClCompile Include="inline_ex.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="pvector.cpp" />
     <ClCompile Include="rpn.cpp" />
     <ClCompile Include="rpn_pvec.cpp" />
     <ClCompile Include="rpn_templ.cpp" />
