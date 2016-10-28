@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fraction.h" />
     <ClInclude Include="inline_ex.h" />
     <ClInclude Include="pvector.h" />
     <ClInclude Include="rpn.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fraction.cpp" />
     <ClCompile Include="inline_ex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rpn.cpp" />
