@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <iostream>
 
 class fraction
@@ -13,6 +12,7 @@ private:
 	void process_sign();
 public:
 	fraction(int c, int d) ;
+	fraction() : cntr(0), denom(1){};
 	~fraction();
 
 	void set_counter(int cntr);

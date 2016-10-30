@@ -1,4 +1,4 @@
-#pragma once
+
 class test_fraction
 {
 	bool test_gcd();

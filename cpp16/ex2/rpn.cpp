@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "rpn.h"
 #include <regex>
 #include <iostream>
@@ -13,7 +12,7 @@ rpn::~rpn()
 }
 
 void rpn::run() {
-	std::cout << " --------------------------\n¦ Simple RPN Calculator\n--------------------------\n\t'n <number>' to put a number on the stack'\n\t'<opertation>' to du an operation on the stack\n\t 'd' to delete a number from the stack\n\t 'q' to quit the calculator" << std::endl;
+	std::cout << " --------------------------\nï¿½ Simple RPN Calculator\n--------------------------\n\t'n <number>' to put a number on the stack'\n\t'<opertation>' to du an operation on the stack\n\t 'd' to delete a number from the stack\n\t 'q' to quit the calculator" << std::endl;
 	std::string line, s;
 
 	do {
