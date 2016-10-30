@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "inline_ex.h"
 
 

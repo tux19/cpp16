@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "test_fraction.h"
 #include <iostream>
 #include "fraction.h"
@@ -168,5 +167,20 @@ void test_fraction::run_static()
 	std::cout << "operator>=(fraction)  test: (5/2) >= (3/4) shold turn to 'true' \n\t";
 	std::cout << f << ">=" << f4 << " -> true";
 	std::cout << ((f >= f4) ? " OK" : "NOT OK") << std::endl;
+
+}
+
+void test_fraction::run_dynamic()
+{
+	std::cout << "Enter a fraction: ";
+	fraction f1, f2;
+	std::cin >> f1;
+
+	std::cout << "Enter a second fraction: ";
+	std::cin >> f2;
+
+	std::cout << "Enter '+', '-', '*', '/', ";
+
+
 
 }

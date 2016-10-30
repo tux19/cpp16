@@ -1,4 +1,3 @@
-#pragma once
 class rpn_pvec
 {
 public:

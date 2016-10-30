@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "fraction.h"
 #include <iostream>
 #include <exception>
@@ -11,7 +10,7 @@ class myexception : public std::exception
 	}
 } division_by_zero;
 
-fraction::fraction(int c = 0, int d = 1) 
+fraction::fraction(int c, int d = 1)
 	: cntr(c), denom(d)
 {
 	if(d == 0)

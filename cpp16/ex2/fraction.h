@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <iostream>
 
 class fraction
@@ -50,6 +49,6 @@ public:
 		
 	inline void check_char(std::istream&is, char ch);
 	friend std::istream& operator >> (std::istream& is, fraction& f);
-	friend std::ostream& operator<<(std::ostream& os, fraction f);
+	friend std::ostream& operator << (std::ostream& os, fraction f);
 };
 

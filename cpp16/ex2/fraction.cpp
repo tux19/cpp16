@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "fraction.h"
 #include <iostream>
 #include <exception>
