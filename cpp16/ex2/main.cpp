@@ -3,6 +3,7 @@
 #include "rpn.h"
 #include "rpn_templ.h"
 #include "fraction.h"
+#include "inline_ex.cpp"
 int main(int argc, char* argv[])
 {
 	std::cout << "------------------------------------------------------------\n|		TASK 2.1 Persistent Vector \n ------------------------------------------------------------" << std::endl;
@@ -12,7 +13,7 @@ int main(int argc, char* argv[])
 		//int_vec.clear();
 
 		int_vec.push_back("DAS");
-		int_vec.push_back("asd");
+		int_vec.push_back("aö\tsd");
 	}
 	pvector<std::string> int_vec("intvec.vec");
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
 	}
 	
 	std::cout << "------------------------------------------------------------\n|		TASK 2.1 Inline Showcase \n ------------------------------------------------------------" << std::endl;
-
+	noinline::run();
 	std::cout << "------------------------------------------------------------\n|		TASK 2.2 RPN demo \n ------------------------------------------------------------" << std::endl;
 	rpn r;
 	r.run();
