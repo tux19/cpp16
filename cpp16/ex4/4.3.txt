@@ -1,0 +1,18 @@
+header.h:
+extern int error_number; //Global Variable
+static double sq(double); //Static  
+const double pi=3.5; // Constant :^)
+extern "C" void c_swap(int *a, int *b); // global Function
+double sqrt(double); // declaration
+struct fraction { int c; int d; }; // declaration
+void swap(int &a, int &b) { int c=a; a=b; b=c; } // Can be done but increases compiletime
+namespace NS { int a; }
+
+x.cpp:
+char ch;  //Variable with local scop (will lead to clashes by chance)
+string s; // see above
+int count=1; // see above
+struct user; //Causes compiler to fail if in header
+char *name="It's me";  
+char *prog[]={"echo","hello","world!",NULL};
+
