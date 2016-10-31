@@ -2,9 +2,9 @@
 
 class fraction
 {
-	
+
 private:
-	int cntr; 
+	int cntr;
 	int denom;
 
 	int gcd(int a, int b);
@@ -12,7 +12,7 @@ private:
 	void process_sign();
 public:
 	fraction(int c, int d) ;
-	fraction();
+    fraction() : cntr(0), denom(1){};
 
 	~fraction();
 	operator double();
@@ -46,9 +46,9 @@ public:
 	bool operator>(const fraction rhs) const;
 	bool operator<=(const fraction rhs) const;
 	bool operator>=(const fraction rhs) const;
-		
+
 	inline void check_char(std::istream&is, char ch);
 	friend std::istream& operator >> (std::istream& is, fraction& f);
-	friend std::ostream& operator << (std::ostream& os, fraction f);
+	friend std::ostream& operator<<(std::ostream& os, fraction f);
 };
 

@@ -8,9 +8,8 @@ set(EX2 main.cpp
         rpn.h
         rpn.cpp
         rpn_pvec.h
-        rpn_pvec.cpp
         rpn_templ.h
-        rpn_templ.cpp)
+        )
 set(noinline inline_ex.cpp)
 add_executable(ex2 ${EX2})
 add_executable(noinline ${noinline})

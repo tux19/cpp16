@@ -1,5 +1,6 @@
 #include <vector>
 #include <sstream>
+
 template<typename T>
 class rpn_templ
 {
@@ -31,6 +32,8 @@ class rpn_templ
 			}
 			break;
 		}
+		case 'm': result = std::min(left, right);break;
+
 		}
 
 		stack.push_back(result);
@@ -48,7 +51,7 @@ public:
 	rpn_templ() {};
 	~rpn_templ() {};
 	void run() {
-		std::cout << " --------------------------\n� Simple RPN Calculator\n--------------------------\n\t'n <number>' to put a number on the stack'\n\t'<opertation>' to du an operation on the stack\n\t 'd' to delete a number from the stack\n\t 'q' to quit the calculator" << std::endl;
+		std::cout << " --------------------------\n| Simple RPN Calculator\n--------------------------\n\t'n <number>' to put a number on the stack'\n\t'<opertation>' to du an operation on the stack\n\t 'd' to delete a number from the stack\n\t 'q' to quit the calculator" << std::endl;
 		std::string line, s;
 
 		do {
@@ -66,38 +69,42 @@ public:
 
 				switch (s[0])
 				{
-				case 'q': break;
+					case 'q': break;
 
-				case 'd':
-					tmp = stack.back();
-					stack.pop_back();
-					print_stack();
-					break;
-				case '+':
-					evaluate_postfix(s[0]);
-					print_stack();
-					break;
-				case '-':
-					evaluate_postfix(s[0]);
-					print_stack();
-					break;
-				case '*':
-					evaluate_postfix(s[0]);
-					print_stack();
-					break;
-				case '/':
-					evaluate_postfix(s[0]);
-					print_stack();
-					break;
-				case 'n':
-					ss >> tmp;
-					stack.push_back(tmp);
-					print_stack();
-					break;
-				default:
-					std::cout << "ERROR: unknown command, try again!" << std::endl;
-					break;
-				}
+					case 'd':
+						tmp = stack.back();
+						stack.pop_back();
+						print_stack();
+						break;
+					case '+':
+						evaluate_postfix(s[0]);
+						print_stack();
+						break;
+					case '-':
+						evaluate_postfix(s[0]);
+						print_stack();
+						break;
+					case '*':
+						evaluate_postfix(s[0]);
+						print_stack();
+						break;
+					case '/':
+						evaluate_postfix(s[0]);
+						print_stack();
+						break;
+					case 'm':
+						evaluate_postfix(s[0]);
+						print_stack();
+						break;
+					case 'n':
+						ss >> tmp;
+						stack.push_back(tmp);
+						print_stack();
+						break;
+					default:
+						std::cout << "ERROR: unknown command, try again!" << std::endl;
+						break;
+					}
 			}
 		} while (s != "q");
 	};

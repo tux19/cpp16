@@ -1,3 +1,8 @@
+
+
+#ifndef _PVECTOR_H
+#define _PVECTOR_H
+
 #include <vector>
 #include <string>
 #include <typeinfo>
@@ -10,9 +15,11 @@ struct pvec_persister{
 	static bool read(std::ifstream& ifs, T& elem){
 		// File exists
 		if (ifs.is_open()){
-			return elem << ifs;
+			ifs >> elem;
+            return !ifs.bad();
 		}
-	};
+        return false;
+    };
 	static bool write(std::ofstream& ofs, T& elem){
 		try
 		{
@@ -176,3 +183,4 @@ public:
 	void clear() { vec.clear(); };
 };
 
+#endif

@@ -4,34 +4,22 @@
 
 class myexception : public std::exception
 {
-	virtual const char* what() const throw()
-	{
-		return "ERROR: Devision by 0!";
-	}
+    virtual const char* what() const throw()
+    {
+        return "ERROR: Devision by 0!";
+    }
 } division_by_zero;
 
-fraction::fraction(int c = 0, int d = 1) 
-	: cntr(c), denom(d)
+fraction::fraction(int c, int d = 1)
+        : cntr(c), denom(d)
 {
-	if(d == 0)
-	{
-		throw division_by_zero;
-	}
-	process_sign();
-	shorten_fraction();
-}
-fraction::fraction()
-{
-	cntr = 0;
-	denom = 1;
-	if (denom == 0)
-	{
-		throw division_by_zero;
-	}
-	process_sign();
-	shorten_fraction();
-}
-;
+    if(d == 0)
+    {
+        throw division_by_zero;
+    }
+    process_sign();
+    shorten_fraction();
+};
 
 fraction::~fraction()
 {
@@ -52,9 +40,13 @@ void fraction::process_sign()
 
 void fraction::shorten_fraction()
 {
-	auto tmp_gcd = gcd(abs(denom), abs(cntr));
-	denom /= tmp_gcd;
-	cntr /= tmp_gcd;
+    if(cntr != 0){
+        auto tmp_gcd = gcd(abs(denom), abs(cntr));
+        denom /= tmp_gcd;
+        cntr /= tmp_gcd;
+    } else {
+        denom = 1;
+    }
 }
 
 int fraction::gcd(int a, int b)
@@ -222,6 +214,7 @@ std::istream& operator>>(std::istream& is, fraction& f) {
 	{
 		f = g;
 	}
+    is.ignore(1,'\n');
 	return is;
 }
 
