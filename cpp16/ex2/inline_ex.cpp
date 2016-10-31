@@ -1,11 +1,16 @@
-#include "inline_ex.h"
+#include <iostream>
 
-
-inline_ex::inline_ex()
+// A compiler CAN inline a recursive function, but not COMPLETELY.
+int factorial(int n)
 {
+    if (n <= 1)
+        return 1;
+    else
+        return n * factorial(n - 1);
 }
 
-
-inline_ex::~inline_ex()
-{
+int main(int argc, char* argv[]){
+    for (int i = 0; i < 12; ++i)
+        std::cout << factorial(i) << std::endl;
 }
+

@@ -2,6 +2,57 @@
 #include <string>
 #include <typeinfo>
 #include <fstream>
+#include <sstream>
+#include <locale>
+// excluded read & write function for partial tmpl specialization
+template< typename T>
+struct pvec_persister{
+	static bool read(std::ifstream& ifs, T& elem){
+		// File exists
+		if (ifs.is_open()){
+			return elem << ifs;
+		}
+	};
+	static bool write(std::ofstream& ofs, T& elem){
+		try
+		{
+            ofs << elem << std::endl;
+			return true;
+		}
+		catch (std::exception e)
+		{
+			std::cout << e.what() << std::endl;
+            return false;
+		}
+	};
+};
+
+template<>
+struct pvec_persister<std::string>{
+	static bool read(std::ifstream& ifs, std::string& elem){
+		// File exists
+		if (ifs.is_open()){
+            std::getline(ifs, elem);
+
+			return !ifs.eof();
+        }
+        return false;
+	}
+	static bool write(std::ofstream& ofs,  std::string& elem){
+		try
+		{
+			ofs << elem << std::endl;
+            return true;
+		}
+		catch (std::exception e)
+		{
+			std::cout << e.what() << std::endl;
+            return false;
+		}
+	};
+};
+
+
 template<typename T>
 class pvector
 {
@@ -19,7 +70,7 @@ private:
 			ofs << vec.capacity() << std::endl;
 			for (T elem : vec)
 			{
-				ofs << elem << std::endl;
+				pvec_persister<T>::write(ofs, elem);
 			}
 		}
 		catch (std::exception e)
@@ -28,39 +79,37 @@ private:
 		}
 	};
 
-	void read_vector() 
+	void read_vector()
 	{
 		std::ifstream ifs(filename.data());
 		// File exists
 		if (ifs.is_open())
 		{
-			std::string s_tmp;
-			int size, capacity;
+			std::string s_tmp = "";
+			size_t size, capacity;
 			
 			T tmp;
 			std::string t = typeid(tmp).name();
-			if (std::getline(ifs, s_tmp)) {
+            std::getline(ifs, s_tmp);
+			if (s_tmp != "") {
 				if ( t != s_tmp)
 				{
 					std::cout << "ERROR reading file, it contains a vector of a wrong type. creating an empty one..." << std::endl;
 				}
 				else
 				{
-					std::getline(ifs, s_tmp);
-					size = std::stoi(s_tmp);
-					std::getline(ifs, s_tmp);
-					capacity = std::stoi(s_tmp);
-					vec.reserve(capacity);
+                    std::getline(ifs, s_tmp);
+                    std::stringstream ss(s_tmp);
+                    ss >> size;
+                    std::getline(ifs, s_tmp);
+                    std::stringstream ss2(s_tmp);
+                    ss2 >> capacity;
 
-					while (ifs >> tmp)
+					while (pvec_persister<T>::read(ifs,tmp))
 					{
 						vec.push_back(tmp);
 					}
 				}
-			}
-			else
-			{
-				std::cout << "ERROR reading file, it was empty" << std::endl;
 			}
 		}
 	};
@@ -70,25 +119,29 @@ public:
 		read_vector();
 	};
 	pvector(std::string fname, unsigned int capacity) {
-		filename = fname;
+
+        filename = fname;
 		read_vector();
 
 		if (vec.capacity() < capacity) {
-			vec.reserve(size);
+			vec.reserve(capacity);
 		}
 	};
 
-	pvector(std::string fname, unsigned int capacity, const T & initial){};
-	pvector(std::string fname, const pvector<T> & v) {
-		filename = fname;
-		vec = new std::vector<T>(v);
-	};
+    pvector(const pvector<T> & v) {
+        filename = v.filename;
+        vec = v.vec;
+    };
+    pvector(const pvector<T> && v) {
+        filename = std::move(v.filename);
+        vec = std::move(v.vec);
+    };
 	~pvector() { write_vector(); };
 	
 	typedef typename std::vector<T>::iterator* iterator;
 
-	unsigned int capacity() { return vec.capacity(); }
-	unsigned int size() { return vec.size(); };
+	size_t capacity() { return vec.capacity(); }
+	size_t size() { return vec.size(); };
 	bool empty() { return vec.empty(); };
 	iterator begin() { return &vec.begin(); };
 	iterator  end() { return &vec.end(); };
@@ -97,15 +150,29 @@ public:
 	void push_back(const T & value) { vec.push_back(value); };
 	void pop_back() { vec.pop_back(); };
 
-	void reserve(unsigned int capacity) { vec.reserve(capacity); };
-	void resize(unsigned int size) { vec.resize(size); };
+	void reserve(size_t capacity) { vec.reserve(capacity); };
+	void resize(size_t size) { vec.resize(size); };
 
 	T & operator[](unsigned int index) { return vec[index]; };
-	pvector<T> & operator=(const pvector<T> &v) {
-		vec.clear();
-		filename = v.filename;
-		std:copy(v.vec.begin(), v.vec.end(), this.vec.begin());
-		return this;
-	};
+    pvector<T> & operator=(const pvector<T> &other) {
+
+        if (this != &other)
+        {
+            filename = other.filename;
+            vec = other.vec;
+        }
+        return *this;
+    };
+
+    pvector<T> & operator=(const pvector<T>&& other) {
+
+        if (this != &other)
+        {
+            filename = std::move(other.filename);
+            vec = std::move(other.vec);
+        }
+        return *this;
+    };
 	void clear() { vec.clear(); };
 };
+
