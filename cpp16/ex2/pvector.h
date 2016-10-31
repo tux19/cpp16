@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <locale>
+#include <iostream>
 // excluded read & write function for partial tmpl specialization
 template< typename T>
 struct pvec_persister{
