@@ -13,54 +13,92 @@
    x->
 */
 
+template<typename F>
+class player {
+public:
+	player();
+	
+ // returns the column where the player decides to throw in his
+ // stone
+ // F is the playfield which may be any playfield implementing
+ // the stoneat method, if you expect a different class because
+ // you need methods to verify whether the opponent can win,
+ // copy the field into the class that you expect.
+ int play(const F &field);
+};
+
 using namespace std;
 
 void playfield::stoneset(int x, int y, int toSet){
 	playfield::rep[x][y] = toSet;
 	return;
 }
-int playfield::checkforwinnervertically(){
+int playfield::checkwinnerhorizontal(){
 	int player = playfield::currentplayer;
-
-	for(int y=0;y<playfield::height;y++){
-		for(int x=0;x<playfield::width-3;x++){	
-		cout << "Vchecking:" << x << "|" << y << endl;
-				if(playfield::stoneat(x,y) == player && playfield::stoneat(x+1,y) == player && playfield::stoneat(x+2,y)== player && playfield::stoneat(x+3,y) == player){
-					
-					return player;
-				}else{
-					return 0;
-				}
-			}
-	}
-	return 0;
-}
-int playfield::checkforwinnerhorizontally(){
-	int player = playfield::currentplayer;
-
-	for(int x=0;x<playfield::width;x++){	
-		for(int y=0;y<playfield::height-3;y++){
-			cout << "Vchecking:" << x << "|" << y << endl;
+	for(int x=0;x<playfield::width;x++){
+		for(int y=0;y<playfield::height-3;y++){	
 				if(playfield::stoneat(x,y) == player && playfield::stoneat(x,y+1) == player && playfield::stoneat(x,y+2)== player && playfield::stoneat(x,y+3) == player){
-					cout << "Hchecking:" << x << "|" << y << endl;
 					return player;
-				}else{
-					return 0;
 				}
-			}
+		}
+	}
+	return 0;
+}
+int playfield::checkwinnervertical(){
+	int player = playfield::currentplayer;
+	for(int y=0;y<playfield::height;y++){
+		for(int x=0;x<playfield::width-3;x++){
+				if(playfield::stoneat(x,y) == player && playfield::stoneat(x+1,y) == player && playfield::stoneat(x+2,y)== player && playfield::stoneat(x+3,y) == player){
+					return player;
+				}
+		}		
+	}
+	return 0;
+}
+int playfield::checkwinnerdiagonal1(){
+	int player = playfield::currentplayer;
+	for(int y=0;y<playfield::height-3;y++){
+		for(int x=0;x<playfield::width-3;x++){
+				if(playfield::stoneat(x,y) == player && playfield::stoneat(x+1,y+1) == player && playfield::stoneat(x+2,y+2)== player && playfield::stoneat(x+3,y+3) == player){
+					return player;
+				}
+		}		
+	}
+	return 0;
+}
+int playfield::checkwinnerdiagonal2(){
+	int player = playfield::currentplayer;
+	for(int y=0;y<playfield::height-3;y++){
+		for(int x=0;x<playfield::width-3;x++){
+				if(playfield::stoneat(x,y) == player && playfield::stoneat(x-1,y+1) == player && playfield::stoneat(x-2,y+2)== player && playfield::stoneat(x-3,y+3) == player){
+					return player;
+				}
+		}		
 	}
 	return 0;
 }
 
-int playfield::checkforwinner(){
+                
+int playfield::checkwinner(){
 	int player = playfield::currentplayer;
 	//Just check for the player who put in the last stone
-	if(playfield::checkforwinnervertically() !=0 ||
-	playfield::checkforwinnerhorizontally() !=0/*||
-	playfield::checkforwinnerdiagonal1() !=0 ||
-	playfield::checkforwinnerdiagonal2() !=0*/){
+	if(playfield::checkwinnervertical() !=0 ||
+	playfield::checkwinnerhorizontal() !=0||
+	playfield::checkwinnerdiagonal1() !=0 ||
+	playfield::checkwinnerdiagonal2() !=0){
 		playfield::winner = player;
-	}	
+	}else{
+		if(playfield::stoneat(0,0) !=0 && 
+		playfield::stoneat(1,0) !=0 && 
+		playfield::stoneat(2,0) !=0 && 
+		playfield::stoneat(3,0) !=0 && 
+		playfield::stoneat(4,0) !=0 && 
+		playfield::stoneat(5,0) !=0 && 
+		playfield::stoneat(6,0) !=0 )
+		{
+			playfield::winner = 3;
+		}
+		}
 	return playfield::winner;
 }
 
@@ -89,7 +127,6 @@ void playfield::nextplayer(){
 	}else{
 		if(y==6){y--;}
 		playfield::stoneset(x,y,currentplayer);
-			cout << "Set "<<x <<"|" <<  y << endl;
 		return 0;
 	}
 	playfield::stoneat(x,y);
@@ -107,50 +144,57 @@ void playfield::drawfield(){
 		}
 }
 
+void playGame(player player1, player player2){
+	playfield game;
+	int input;
+	game.drawfield();
+	while(game.winner == 0){
+	if(player1 != 0 | player2!= 0){ //If we have only Computerplayers
+		
+	}else{ // If we have human players:
+		cout << "Player "<< game.currentplayer << " please enter in which column you want to put your stone (0-6):"<< endl;
+		cin >> input;
+		while(input > 7 || input < 0){
+			cout << "Wrong input" << endl;
+		cin.clear();	
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');	
+			cout << "Enter again:" << endl;
+			cin >> input ;
+		}
+		while(game.gravity(input,0) != 0){
+		 cout << "Illegal move" << endl;
+		cin.clear();	
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		 cin >> input;
+			while(input > 7 || input < 0){
+				cout << "Wrong input" << endl;
+				cout << "Enter again:" << endl;
+				cin.clear();	
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cin >> input;
+			}
+		}
+	}
+	auto myFuture = std::async(std::launch::async, &playfield::checkwinner, &game); //Wait for the check to complete before skipping to nextplayer();
+	int winner = myFuture.get();
+	game.nextplayer();
+	game.drawfield();
+	}
+	if(game.winner != 0 && game.winner != 3){
+		cout << "Congrats player" << game.winner << endl;
+	}else if(game.winner == 3){
+		cout << "Looks like a draw" << endl;
+	}
+	
+}
+
 // Intialize game array with 0s
 // Loop:Return which player starts
 //  Read inputs
 // UpdateGameView
 // Determine winner
 
-
 int main(){
-	playfield game;
-	int input;
-	game.drawfield();
-	while(game.winner == 0){
-	cout << "Player "<< game.currentplayer << "please enter in which column you want to put your stone:"<< endl;
-	cin >> input;
-	while(input > 7 || input < 0){
-		cout << "Wrong input" << endl;
-	cin.clear();	
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');	
-		cout << "Enter again:" << endl;
-		cin >> input;
-	}
-	if(game.gravity(input,0) != 0){
-	 cout << "Illegal move" << endl;
-	cin.clear();	
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	 cin >> input;
-		while(input > 7 || input < 0){
-			cout << "Wrong input" << endl;
-			cout << "Enter again:" << endl;
-			cin.clear();	
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			cin >> input; //Check Gravity!
-		}
-	} 
-	auto myFuture = std::async(std::launch::async, &playfield::checkforwinner, &game); //Wait for the check to complete before skipping to nextplayer();
-	int winner = myFuture.get();
-	game.nextplayer();
-	game.drawfield();
-	}
-	if(game.winner != 0){
-		cout << "Congrats player " << game.winner << endl;
-	}else{
-		cout << "looks like a draw" << endl;
-	}
-	
+	playGame();
 	return 0;
 }
