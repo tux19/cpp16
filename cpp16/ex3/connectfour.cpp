@@ -144,7 +144,7 @@ void playfield::drawfield(){
 		}
 }
 
-void playGame(player player1, player player2){
+void playGame(/*player<T> player1, player<T> player2*/){
 	playfield game;
 	int input;
 	game.drawfield();
