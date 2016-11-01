@@ -27,10 +27,16 @@ public:
     // if we insert a stone in a new game in column i,
     // it lands at (i,height-1)
 	void stoneset(int x, int y, int toSet);
-	int gravity(int x, int y); //Has to return if move was legal
-	void drawfield();
-	void checkforwinner();
-	void nextplayer();
+	int gravity(int x, int y); //returns if move is legal
+	void drawfield(); //console output
+	int checkforwinner(); // sets winner => 0:no winner 1:player1 2:player2
+		int checkforwinnervertically();
+		int checkforwinnerhorizontally();
+		int checkforwinnerdiagonal1();
+		int checkforwinnerdiagonal2();
+
+	void resetfield(); // reset rep[][]
+	void nextplayer(); 
     int stoneat(int x, int y) const { return rep[x][y]; }
      ~playfield() {
 
