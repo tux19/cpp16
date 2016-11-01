@@ -29,11 +29,11 @@ public:
 	void stoneset(int x, int y, int toSet);
 	int gravity(int x, int y); //returns if move is legal
 	void drawfield(); //console output
-	int checkforwinner(); // sets winner => 0:no winner 1:player1 2:player2
-		int checkforwinnervertically();
-		int checkforwinnerhorizontally();
-		int checkforwinnerdiagonal1();
-		int checkforwinnerdiagonal2();
+	int checkwinner(); // sets winner => 0:no winner 1:player1 2:player2 3:draw
+		int checkwinnervertical();
+		int checkwinnerhorizontal();
+		int checkwinnerdiagonal1();
+		int checkwinnerdiagonal2();
 
 	void resetfield(); // reset rep[][]
 	void nextplayer(); 
