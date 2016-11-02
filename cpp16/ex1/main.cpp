@@ -19,9 +19,8 @@ int main(int argc, char *argv[]) {
     std::cout
             << "------------------------------------------------------------\n|		TASK 1.2 DYNAMIC TEST DRIVER \n ------------------------------------------------------------"
             << std::endl;
-    std::cout << "Press a key to start dynamic test! ->" << std::endl;
 
-    //test.run_dynamic();
+    test.run_dynamic();
 
     std::cin.get();
     return 0;

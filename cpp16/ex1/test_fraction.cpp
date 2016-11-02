@@ -173,8 +173,8 @@ std::cout << "Enter a fraction: ";
 	std::cout << "Enter a second fraction: ";
 	std::cin >> f2;
 	std::cout << "Enter '+', '-', '*', '/' , '>' ,'<', '>=' ,'<=', '==' ,'!='\n";
-	std::string input = "";
-	std::getline(std::cin,input);
+	std::string input;
+	std::cin >> input;
 	if(input == "+"){
 		std::cout << f1 + f2<< "\n";
 	}else if(input == "-"){
@@ -198,6 +198,6 @@ std::cout << "Enter a fraction: ";
 	}
 	
 	std::cout << "Abort testing? [y/n] :\n";
-	std::getline(std::cin,input);
+	std::cin >> input;
 	if(input[0]!='y') { run_dynamic(); }
 }
