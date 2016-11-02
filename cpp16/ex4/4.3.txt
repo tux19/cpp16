@@ -16,3 +16,73 @@ struct user; //Causes compiler to fail if in header
 char *name="It's me";  
 char *prog[]={"echo","hello","world!",NULL};
 
+char ch;
+
+depends, most likely header.
+since the hole class should have access to it.
+
+string s;
+
+depends, most likely header.
+since the hole class should have access to it.
+
+
+extern int error_number;
+
+header.
+extern tells the compiler that the variabel is declared here and defined somewhere else.
+
+static double sq(double);
+
+header.
+static variable is the same for every obj of the class
+
+int count=1;
+
+depends:
+header if something like a counted pointer.
+
+impl file if e.g. in loop.
+
+const double pi=3.5;
+
+header
+if it doesn't change, it should be clearly visible.
+
+struct fraction { int c; int d; };
+
+depends on the implementation.
+most likely it isn't a helper-struct, therefore header.
+
+char *name="It's me";
+
+depends.
+most likely header since init. with a fixed char array
+
+char *prog[]={"echo","hello","world!",NULL};
+
+depends.
+most likely header since init. with a fixed char array array.
+
+extern "C" void c_swap(int *a, int *b);
+
+header
+extern decl.
+
+double sqrt(double);
+
+header function decl.
+
+void swap(int &a, int &b) { int c=a; a=b; b=c;}
+
+header function decl and def.
+
+namespace NS { int a; }
+
+most likely header.
+should be available for the hole namespace. including something in a not .h-file might cause unexpected errors. (not including the necessary file)
+
+struct user;
+
+header.
+struct def

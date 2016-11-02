@@ -1,7 +1,3 @@
-//
-// Created by Christian Ott on 02.11.2016.
-//
-
 #ifndef CPP16_CONNECT4_H
 #define CPP16_CONNECT4_H
 
@@ -14,7 +10,7 @@
 template<typename F, typename P1=player<F>, typename P2=player<F>>
 class connect4 {
 private:
-    F *myPlayfield;
+    F *field;
     P1 *player1;
     P2 *player2;
 
@@ -24,20 +20,20 @@ private:
 
 public:
     connect4(){
-        this->myPlayfield = new F();
-        this->player1 = new P1();
-        this->player2 = new P2();
+        field = new F();
+        player1 = new P1();
+        player2 = new P2();
     }
 
-    void printField(){
+    void print_field(){
         // Rows
-        for(int r = 0; r < myPlayfield->height; ++r) {
+        for(int r = 0; r < field->height; ++r) {
 
             // Columns
-            for(int c = 0; c < myPlayfield->width; ++c) {
-                if(myPlayfield->stoneat(c, r) == F::player1) {
+            for(int c = 0; c < field->width; ++c) {
+                if(field->stoneat(c, r) == F::player1) {
                     std::cout << "X";
-                } else if(myPlayfield->stoneat(c,r) == F::player2) {
+                } else if(field->stoneat(c,r) == F::player2) {
                     std::cout << "O";
                 } else {
                     std::cout << " ";
@@ -47,31 +43,31 @@ public:
             std::cout << "|" << std::endl;
         }
 
-        for(int i = 0; i < myPlayfield->width; i++) {
+        for(int i = 0; i < field->width; i++) {
             std::cout << "-";
         }
         std::cout << std::endl;
 
-        for(int i = 0; i < myPlayfield->width; i++) {
+        for(int i = 0; i < field->width; i++) {
             std::cout << i;
         }
         std::cout << std::endl << std::endl;
     }
 
-    int makeMove(int playerNo, int col){
+    int make_move(int player_no, int col){
         int result = -1;
 
         for(int r = F::height - 1; r >= 0 && result != 0; --r) {
-            if(myPlayfield->stoneat(col, r) == F::none) {
+            if(field->stoneat(col, r) == F::none) {
 
-                myPlayfield->setstoneat(col,r, playerNo);
+                field->setstoneat(col,r, player_no);
 
                 result = 0;
             }
         }
 
         if(result == 0) {
-            result = static_cast<int>(myPlayfield->checkWin(playerNo));
+            result = static_cast<int>(field->check_win(player_no));
         }
 
         return result;
@@ -83,12 +79,12 @@ public:
         int moveResult = -1;
 
         while(connect4::play) {
-            printField();
+            print_field();
             roundRunning = true;
 
             while(roundRunning) {
 
-                if(myPlayfield->checkFull()) {
+                if(field->check_full()) {
                     std::cout << "Game ended in a draw!" << std::endl;
                     play = false;
                     break;
@@ -97,7 +93,7 @@ public:
                 if(round%2 == 1) {
                     std::cout << "PLAYER 1: " << std::endl;
 
-                    const F *cField = const_cast<const F*>(myPlayfield);
+                    const F *cField = const_cast<const F*>(field);
                     move = player1->play(*cField);
 
                     if(move == -1) {
@@ -105,13 +101,13 @@ public:
                         break;
                     }
 
-                    moveResult = makeMove(1, move);
+                    moveResult = make_move(1, move);
 
                     if(moveResult == 0) {
                         roundRunning = false;
                         ++round;
                     } else if (moveResult == 1) {
-                        printField();
+                        print_field();
                         std::cout << "PLAYER 1 HAS WON!!" << std::endl;
                         roundRunning = false;
                         play = false;
@@ -119,7 +115,7 @@ public:
                 } else if(round%2 == 0) {
                     std::cout << "PLAYER 2: " << std::endl;
 
-                    const F *cField = const_cast<const F*>(myPlayfield);
+                    const F *cField = const_cast<const F*>(field);
                     move = player2->play(*cField);
 
                     if(move == -1) {
@@ -127,13 +123,13 @@ public:
                         break;
                     }
 
-                    moveResult = makeMove(2, move);
+                    moveResult = make_move(2, move);
 
                     if(moveResult == 0) {
                         roundRunning = false;
                         ++round;
                     } else if (moveResult == 1) {
-                        printField();
+                        print_field();
                         std::cout << "PLAYER 2 HAS WON!!" << std::endl;
                         roundRunning = false;
                         play = false;

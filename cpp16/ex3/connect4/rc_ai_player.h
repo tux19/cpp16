@@ -1,6 +1,3 @@
-//
-// Created by Christian Ott on 02.11.2016.
-//
 
 #ifndef CPP16_SC_AI_PLAYER_H
 #define CPP16_SC_AI_PLAYER_H
@@ -42,7 +39,7 @@ private:
         }
 
         if(stoneRow != -1) {
-            canWin = myPlayfield->checkWin(playerNo);
+            canWin = myPlayfield->check_win(playerNo);
             myPlayfield->setstoneat(col,stoneRow, F::none);
         }
 
@@ -106,10 +103,10 @@ private:
         int player = playerTurn(state);
         int otherPlayer = (player == F::player1 ? F::player2 : F::player1);
 
-        if(state->checkWin(player)){
+        if(state->check_win(player)){
             win = 1;
             lose = 0;
-        } else if(state->checkWin(otherPlayer)){
+        } else if(state->check_win(otherPlayer)){
             win = 0;
             lose = 1;
         } else {
@@ -153,11 +150,11 @@ private:
         int player = playerTurn(state);
 
         if(player == F::player1){
-            return 	state->checkWin(F::player1) ||
+            return state->check_win(F::player1) ||
                       d >= depthLimit ||
                       actions(state)->size() == 0;
         } else {
-            return 	state->checkWin(F::player2) ||
+            return state->check_win(F::player2) ||
                       d >= depthLimit ||
                       actions(state)->size() == 0;
         }

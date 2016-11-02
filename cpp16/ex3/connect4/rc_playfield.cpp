@@ -17,8 +17,8 @@ sc_playfield::sc_playfield(){
 }
 
 
-void sc_playfield::setstoneat(int x, int y, int playerNo){
-    field[x][y] = playerNo;
+void sc_playfield::setstoneat(int x, int y, int player_no){
+    field[x][y] = player_no;
 }
 
 
@@ -47,7 +47,7 @@ sc_playfield::~sc_playfield(){
 }
 
 // check if player has won with 4 horizontal stones
-bool sc_playfield::checkHorizontal(int playerNo) {
+bool sc_playfield::check_horizontal(int player_no) {
 
     bool hasWon = false;
     int counter = 0;
@@ -57,7 +57,7 @@ bool sc_playfield::checkHorizontal(int playerNo) {
 
         // for each column
         for(int c = 0; c < width && !hasWon; ++c) {
-            if(stoneat(c,r) == playerNo) {
+            if(stoneat(c,r) == player_no) {
                 ++counter;
             } else {
                 counter = 0;
@@ -75,7 +75,7 @@ bool sc_playfield::checkHorizontal(int playerNo) {
 }
 
 // check if player has won with 4 vertical stones
-bool sc_playfield::checkVertical(int playerNo) {
+bool sc_playfield::check_vertical(int player_no) {
 
     bool hasWon = false;
     int counter = 0;
@@ -85,7 +85,7 @@ bool sc_playfield::checkVertical(int playerNo) {
 
         // for each row
         for(int r = 0; r < height && !hasWon; ++r) {
-            if(stoneat(c,r) == playerNo) {
+            if(stoneat(c,r) == player_no) {
                 ++counter;
             } else {
                 counter = 0;
@@ -102,7 +102,7 @@ bool sc_playfield::checkVertical(int playerNo) {
 }
 
 // check if player has won with 4 diagonal stones
-bool sc_playfield::checkDiagonal(int playerNo) {
+bool sc_playfield::check_diagonal(int player_no) {
 
     bool hasWon = false;
     int counter = 0;
@@ -118,132 +118,58 @@ bool sc_playfield::checkDiagonal(int playerNo) {
      */
 
     int startCol = 0;
+    // for every possible start col
+    for(startCol = 0; startCol < width-4; startCol++){
+        for(int start_row = 3; start_row < height; start_row++){
+            for (int h = 0 ; h < 4; ++h) {
+                if(stoneat(startCol + h,start_row - h) == player_no) {
+                    ++counter;
+                } else {
+                    counter = 0;
+                }
 
-    // for row 3, 4, 5
-    for(int h = 3; h < height; ++h) {
-        // start at (0,3), then (1,2), (2,1), (3,0)
-        for(int currentHeight = h; currentHeight >= 0 && startCol < width; --currentHeight) {
-            if(stoneat(startCol,currentHeight) == playerNo) {
-                ++counter;
-            } else {
-                counter = 0;
+                if(counter == 4) {
+                    hasWon = true;
+                }
             }
 
-            if(counter == 4) {
-                hasWon = true;
-            }
-
-            ++startCol;
         }
-        counter = 0;
-        startCol = 0;
     }
+    for(startCol = width - 1; startCol >= 3; startCol--){
+        for(int start_row = 3; start_row < height; start_row++){
+            for (int h = 0 ; h < 4; ++h) {
+                if(stoneat(startCol - h,start_row - h) == player_no) {
+                    ++counter;
+                } else {
+                    counter = 0;
+                }
 
-
-    /*
-     * 0  ///////
-     * 1  ///////
-     * 2  //////
-     * 3  /////
-     * 4  ////
-     * 5  ///
-     *   0123456
-     */
-
-    startCol = 1;
-
-    // do the following for startCol = 1,2,3
-    for(int w = 1; w < 4; ++w) {
-
-        // start at (1,5), then (2,4), (3,3), (4,2)
-        for(int currentHeight = height-1; currentHeight >= 0 && startCol < width; --currentHeight) {
-            if(stoneat(startCol,currentHeight) == playerNo) {
-                ++counter;
-            } else {
-                counter = 0;
+                if(counter == 4) {
+                    hasWon = true;
+                }
             }
-
-            if(counter == 4) {
-                hasWon = true;
-            }
-
-            ++startCol;
         }
-        counter = 0;
-        startCol = w;
     }
-
-
-    /*
-     * 0  \\\
-     * 1   \\\
-     * 2    \\\
-     * 3     \\\
-     * 4      \\
-     * 5       \
-     *   0123456
-     */
-
-    startCol = 6;
-
-    for(int h = 3; h < height; ++h) {
-        for(int hh = h; hh >= 0 && startCol >= 0; --hh) {
-            if(stoneat(startCol,hh) == playerNo) {
-                ++counter;
-            } else {
-                counter = 0;
-            }
-
-            if(counter == 4) {
-                hasWon = true;
-            }
-
-            --startCol;
-        }
-        counter = 0;
-        startCol = 6;
-    }
-
-    startCol = 5;
-
-    for(int w = 5; w > 2; --w) {
-        for(int hh = height-1; hh >= 0 && startCol >= 0; --hh) {
-            if(stoneat(startCol,hh) == playerNo) {
-                ++counter;
-            } else {
-                counter = 0;
-            }
-
-            if(counter == 4) {
-                hasWon = true;
-            }
-
-            --startCol;
-        }
-        counter = 0;
-        startCol = w;
-    }
-
     return hasWon;
 }
-bool sc_playfield::checkWin(int playerNo) {
+bool sc_playfield::check_win(int player_no) {
 
     bool hasWon = false;
 
-    hasWon = checkHorizontal(playerNo);
+    hasWon = check_horizontal(player_no);
 
     if(!hasWon) {
-        hasWon = checkVertical(playerNo);
+        hasWon = check_vertical(player_no);
     }
 
     if(!hasWon) {
-        hasWon = checkDiagonal(playerNo);
+        hasWon = check_diagonal(player_no);
     }
 
     return hasWon;
 }
 
-bool sc_playfield::checkFull() {
+bool sc_playfield::check_full() {
     bool isFull = true;
 
     for(int i = 0; i < width && isFull; ++i) {
@@ -257,7 +183,7 @@ bool sc_playfield::checkFull() {
     return isFull;
 }
 
-void sc_playfield::printField(){
+void sc_playfield::print_field(){
     // Rows
     for(int r = 0; r < height; ++r) {
 
