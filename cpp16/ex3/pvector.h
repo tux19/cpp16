@@ -12,45 +12,11 @@
 #include <sstream>
 #include <locale>
 #include <iostream>
-
+#include "persister.h"
 // excluded read & write function for partial tmpl specialization
-template<typename T>
-struct pvec_persister {
-    static bool read(std::ifstream &ifs, T &elem) {
-        // File exists
-        if (ifs.is_open()) {
-            ifs >> elem;
-            return !ifs.bad();
-        }
-        return false;
-    };
-
-    static bool write(std::ofstream &ofs, T &elem) {
-        ofs << elem << std::endl;
-        return true;
-    };
-};
-
-template<>
-struct pvec_persister<std::string> {
-    static bool read(std::ifstream &ifs, std::string &elem) {
-        // File exists
-        if (ifs.is_open()) {
-            std::getline(ifs, elem);
-
-            return !ifs.eof();
-        }
-        return false;
-    }
-
-    static bool write(std::ofstream &ofs, std::string &elem) {
-        ofs << elem << std::endl;
-        return true;
-    };
-};
 
 
-template<typename T, typename P=pvec_persister<T> >
+template<typename T, typename P=persister<T> >
 class pvector {
 private:
     typedef P persister;
