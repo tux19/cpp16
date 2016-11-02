@@ -1,7 +1,7 @@
 #include <iostream>
 
 // A compiler CAN inline a recursive function, but not COMPLETELY.
-int factorial(int n) {
+inline int factorial(int n) {
     if (n <= 1)
         return 1;
     else

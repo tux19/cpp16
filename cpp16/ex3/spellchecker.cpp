@@ -1,8 +1,9 @@
-#include "../ex2/pvector.h"
+#include "pvector.h"
 #include "spellchecker.h"
 #include <iostream>
 #include <algorithm> //std::replace
 #include <vector>
+#include <string>
 
 using namespace std;
 

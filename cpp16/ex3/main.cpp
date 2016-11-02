@@ -12,5 +12,6 @@
 int main(int argc, const char* argv[]) {
     connect4< sc_playfield, rc_ai_player<sc_playfield>, rc_human_player<sc_playfield> > game;
     game.runGame();
+    std::cin.get();
 
 }

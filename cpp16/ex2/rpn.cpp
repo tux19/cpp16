@@ -3,6 +3,12 @@
 #include <iostream>
 #include <string>
 
+class myexception : public std::exception {
+    virtual const char *what() const throw() {
+        return "ERROR: Devision by 0!";
+    }
+} division_by_zero;
+
 rpn::rpn() {
 }
 
@@ -65,9 +71,9 @@ void rpn::run() {
     } while (s != "q");
 }
 
-int rpn::evaluate_postfix(const char operation) {
+void rpn::evaluate_postfix(const char operation) {
 
-    int left, right, result;
+    double left, right, result;
 
     //Pull out top two elements
     right = stack.back();
@@ -87,22 +93,22 @@ int rpn::evaluate_postfix(const char operation) {
             break;
         case '/': {
             if (right == 0) {
-                // TODO exception
+                throw division_by_zero;
             } else {
                 result = left / right;
             }
             break;
         }
+        default:
+            break;
     }
 
     stack.push_back(result);
-
-    return stack[0]; //last element is the answer
 }
 
 void rpn::print_stack() {
     for (int n = 0; n < stack.size(); n++) {
-        std::cout << '\t' << n << ". " << stack[n] << std::endl;
+        std::cout << '\t(' << n << ") -> " << stack[n] << std::endl;
     }
 }
 

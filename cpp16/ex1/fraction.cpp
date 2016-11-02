@@ -31,9 +31,13 @@ void fraction::process_sign() {
 }
 
 void fraction::shorten_fraction() {
-    auto tmp_gcd = gcd(abs(_denom), abs(_cntr));
-    _denom /= tmp_gcd;
-    _cntr /= tmp_gcd;
+    if (_cntr != 0) {
+        auto tmp_gcd = gcd(abs(_denom), abs(_cntr));
+        _denom /= tmp_gcd;
+        _cntr /= tmp_gcd;
+    } else {
+        _denom = 1;
+    }
 }
 
 int fraction::gcd(int a, int b) {

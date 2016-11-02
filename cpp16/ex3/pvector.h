@@ -13,7 +13,6 @@
 #include <locale>
 #include <iostream>
 #include "persister.h"
-// excluded read & write function for partial tmpl specialization
 
 
 template<typename T, typename P=persister<T> >

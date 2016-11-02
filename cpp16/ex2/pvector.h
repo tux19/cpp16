@@ -1,5 +1,3 @@
-
-
 #ifndef _PVECTOR_H
 #define _PVECTOR_H
 
@@ -24,14 +22,8 @@ struct pvec_persister {
     };
 
     static bool write(std::ofstream &ofs, T &elem) {
-        try {
-            ofs << elem << std::endl;
-            return true;
-        }
-        catch (std::exception e) {
-            std::cout << e.what() << std::endl;
-            return false;
-        }
+        ofs << elem << std::endl;
+        return true;
     };
 };
 
@@ -42,20 +34,14 @@ struct pvec_persister<std::string> {
         if (ifs.is_open()) {
             std::getline(ifs, elem);
 
-            return !ifs.eof();
+            return !ifs.bad();
         }
         return false;
     }
 
     static bool write(std::ofstream &ofs, std::string &elem) {
-        try {
-            ofs << elem << std::endl;
-            return true;
-        }
-        catch (std::exception e) {
-            std::cout << e.what() << std::endl;
-            return false;
-        }
+        ofs << elem << std::endl;
+        return true;
     };
 };
 

@@ -1,6 +1,3 @@
-//
-// Created by Christian Ott on 02.11.2016.
-//
 
 #ifndef CPP16_PERSISTER_H
 #define CPP16_PERSISTER_H

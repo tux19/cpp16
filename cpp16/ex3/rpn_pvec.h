@@ -1,20 +1,23 @@
 #include <vector>
 #include <sstream>
+#include <iostream>
+#include "pvector.h"
+#include <string>
+#include <algorithm>
 
 class myexception : public std::exception {
     virtual const char *what() const throw() {
         return "ERROR: Devision by 0!";
     }
 } division_by_zero;
-
 template<typename T>
-class rpn_templ {
-    std::vector<T> stack;
+class rpn_pvec {
+    pvector<T> stack = pvector<T>("stack.vec");
     T tmp;
 
     void evaluate_postfix(const char operation) {
 
-        T left, right, result;
+        T left, right, result, min;
 
         //Pull out top two elements
         right = stack.back();
@@ -34,15 +37,21 @@ class rpn_templ {
                 break;
             case '/': {
                 if (static_cast<double>(right) == 0) {
-                    throw division_by_zero;
+                   throw division_by_zero;
                 } else {
                     result = left / right;
                 }
                 break;
             }
-            case 'm':
-                result = std::min(left, right);
+            case 'm': {
+                result = std::min(left,right);
+                auto body = [](typename T::const_reference elem){
+                    result = std::min(result,elem);
+                };
+                std::for_each(stack.begin(), stack.end(),body);
+                stack.clear();
                 break;
+            }
             default:
                 break;
         }
@@ -52,19 +61,22 @@ class rpn_templ {
 
     void print_stack() {
         for (int n = 0; n < stack.size(); n++) {
-            std::cout << '\t(' << n << ") ->" << stack[n] << std::endl;
+            std::cout << '\t' << n << ". " << stack[n] << std::endl;
         }
     }
 
 public:
-    rpn_templ() {};
+    rpn_pvec() {};
 
-    ~rpn_templ() {};
+    ~rpn_pvec() {};
 
     void run() {
         std::cout
                 << " --------------------------\n| Simple RPN Calculator\n--------------------------\n\t'n <number>' to put a number on the stack'\n\t'<opertation>' to du an operation on the stack\n\t 'd' to delete a number from the stack\n\t 'q' to quit the calculator"
                 << std::endl;
+        std::cout << "\nCurrent Stack: " << std::endl;
+        print_stack();
+
         std::string line, s;
 
         do {

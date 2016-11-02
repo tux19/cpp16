@@ -6,11 +6,10 @@
 
 template<typename T>
 class rpn_pvec {
-    //std::string s = "stack.vec";
     pvector<T> stack = pvector<T>("stack.vec");
     T tmp;
 
-    T evaluate_postfix(const char operation) {
+    void evaluate_postfix(const char operation) {
 
         T left, right, result;
 
@@ -32,7 +31,7 @@ class rpn_pvec {
                 break;
             case '/': {
                 if (static_cast<double>(right) == 0) {
-                    // TODO exception
+                   throw division_by_zero;
                 } else {
                     result = left / right;
                 }
@@ -41,12 +40,11 @@ class rpn_pvec {
             case 'm':
                 result = std::min(left, right);
                 break;
-
+            default:
+                break;
         }
 
         stack.push_back(result);
-
-        return stack[0]; //last element is the answer
     };
 
     void print_stack() {
