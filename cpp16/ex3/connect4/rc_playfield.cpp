@@ -107,16 +107,20 @@ bool sc_playfield::check_diagonal(int player_no) {
     bool hasWon = false;
     int counter = 0;
 
-    /*
-     *      /
-     *     //
-     *    ///
-     * 3 ///
-     * 4 //
-     * 5 /
-     *   0123456
-     */
+    // spans a parallelogram where the diagonal sides have length 4
+    // and the vertical sides height - 3
+    // the parallelogram is moved to the left until it reaches the last column
 
+    // |      *
+    // |    * *
+    // |  * * *
+    // |* * *
+    // |* *
+    // |*
+    // ---------------
+    //  0 1 2 3 4 5 6
+
+    // same principle for other diagonal, but from the other side
     int startCol = 0;
     // for every possible start col
     for(startCol = 0; startCol < width-4; startCol++){
