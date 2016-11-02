@@ -1,6 +1,6 @@
 
-#ifndef CPP16_PERSISTER_H
-#define CPP16_PERSISTER_H
+#ifndef CPP16_EX3_PERSISTER_H
+#define CPP16_EX3_PERSISTER_H
 
 #include <fstream>
 
@@ -39,4 +39,4 @@ struct persister<std::string> {
     };
 };
 
-#endif //CPP16_PERSISTER_H
+#endif //CPP16_EX3_PERSISTER_H

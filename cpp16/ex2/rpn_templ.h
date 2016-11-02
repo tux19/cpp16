@@ -52,7 +52,7 @@ class rpn_templ {
 
     void print_stack() {
         for (int n = 0; n < stack.size(); n++) {
-            std::cout << '\t(' << n << ") ->" << stack[n] << std::endl;
+            std::cout << "\t(" << n << ") ->" << stack[n] << std::endl;
         }
     }
 

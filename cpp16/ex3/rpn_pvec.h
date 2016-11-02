@@ -1,3 +1,5 @@
+#ifndef CPP16_EX3_RPN_PVEC_FOREACH_H
+#define CPP16_EX3_RPN_PVEC_FOREACH_H
 #include <vector>
 #include <sstream>
 #include <iostream>
@@ -5,11 +7,8 @@
 #include <string>
 #include <algorithm>
 
-class myexception : public std::exception {
-    virtual const char *what() const throw() {
-        return "ERROR: Devision by 0!";
-    }
-} division_by_zero;
+
+
 template<typename T>
 class rpn_pvec {
     pvector<T> stack = pvector<T>("stack.vec");
@@ -37,19 +36,18 @@ class rpn_pvec {
                 break;
             case '/': {
                 if (static_cast<double>(right) == 0) {
-                   throw division_by_zero;
+//TODO
                 } else {
                     result = left / right;
                 }
                 break;
             }
             case 'm': {
-                result = std::min(left,right);
-                auto body = [](typename T::const_reference elem){
-                    result = std::min(result,elem);
-                };
-                std::for_each(stack.begin(), stack.end(),body);
+                T smallest = std::min(left,right);
+                std::for_each(stack.begin(), stack.end(), [&](T c){if (c < smallest) smallest = c;});
+
                 stack.clear();
+                result = smallest;
                 break;
             }
             default:
@@ -132,3 +130,5 @@ public:
         } while (s != "q");
     };
 };
+
+#endif

@@ -1,6 +1,5 @@
-#ifndef CPP16_EX2_FRACTION_H
-#define CPP16_EX2_FRACTION_H
-
+#ifndef CPP16_EX3_FRACTION_H
+#define CPP16_EX3_FRACTION_H
 #include <iostream>
 
 class fraction {

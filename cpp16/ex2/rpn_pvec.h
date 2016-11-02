@@ -1,3 +1,5 @@
+#ifndef CPP16_EX2_RPN_PVEC_H
+#define CPP16_EX2_RPN_PVEC_H
 #include <vector>
 #include <sstream>
 #include <iostream>
@@ -120,3 +122,5 @@ public:
         } while (s != "q");
     };
 };
+
+#endif

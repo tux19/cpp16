@@ -1,3 +1,5 @@
+#ifndef CPP16_EX1_FRACTION_H
+#define CPP16_EX1_FRACTION_H
 #include <iostream>
 
 class fraction {
@@ -72,3 +74,4 @@ public:
     friend std::ostream &operator<<(std::ostream &os, fraction f);
 };
 
+#endif

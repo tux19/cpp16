@@ -1,9 +1,5 @@
-//
-// Created by Christian Ott on 31.10.2016.
-//
-
-#ifndef PVECTOR_H_TRAITS
-#define PVECTOR_H_TRAITS
+#ifndef CPP16_EX3_PVEC_H
+#define CPP16_EX3_PVEC_H
 
 #include <vector>
 #include <string>
@@ -19,6 +15,8 @@ template<typename T, typename P=persister<T> >
 class pvector {
 private:
     typedef P persister;
+    typedef typename std::vector<T>::iterator iterator;
+    typedef typename std::vector<T>::const_iterator const_iterator;
     std::vector<T> vec;
     std::string filename;
 
@@ -95,17 +93,15 @@ public:
 
     ~pvector() { write_vector(); };
 
-    typedef typename std::vector<T>::iterator *iterator;
-
     size_t capacity() { return vec.capacity(); }
 
     size_t size() { return vec.size(); };
 
     bool empty() { return vec.empty(); };
 
-    iterator begin() { return &vec.begin(); };
+    iterator begin() { return vec.begin(); };
 
-    iterator end() { return &vec.end(); };
+    iterator end() { return vec.end(); };
 
     T &front() { return vec.front(); };
 
@@ -143,4 +139,3 @@ public:
 };
 
 #endif
-#endif //PVECTOR_H_TRAITS

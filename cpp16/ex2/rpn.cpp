@@ -108,7 +108,7 @@ void rpn::evaluate_postfix(const char operation) {
 
 void rpn::print_stack() {
     for (int n = 0; n < stack.size(); n++) {
-        std::cout << '\t(' << n << ") -> " << stack[n] << std::endl;
+        std::cout << "\t(" << n << ") -> " << stack[n] << std::endl;
     }
 }
 
