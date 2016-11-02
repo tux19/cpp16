@@ -1,7 +1,9 @@
+//
+// Created by Christian Ott on 31.10.2016.
+//
 
-
-#ifndef _PVECTOR_H
-#define _PVECTOR_H
+#ifndef PVECTOR_H_TRAITS
+#define PVECTOR_H_TRAITS
 
 #include <vector>
 #include <string>
@@ -24,14 +26,8 @@ struct pvec_persister {
     };
 
     static bool write(std::ofstream &ofs, T &elem) {
-        try {
-            ofs << elem << std::endl;
-            return true;
-        }
-        catch (std::exception e) {
-            std::cout << e.what() << std::endl;
-            return false;
-        }
+        ofs << elem << std::endl;
+        return true;
     };
 };
 
@@ -48,21 +44,16 @@ struct pvec_persister<std::string> {
     }
 
     static bool write(std::ofstream &ofs, std::string &elem) {
-        try {
-            ofs << elem << std::endl;
-            return true;
-        }
-        catch (std::exception e) {
-            std::cout << e.what() << std::endl;
-            return false;
-        }
+        ofs << elem << std::endl;
+        return true;
     };
 };
 
 
-template<typename T>
+template<typename T, typename P=pvec_persister<T> >
 class pvector {
 private:
+    typedef P persister;
     std::vector<T> vec;
     std::string filename;
 
@@ -74,7 +65,7 @@ private:
             ofs << vec.size() << std::endl;
             ofs << vec.capacity() << std::endl;
             for (T elem : vec) {
-                pvec_persister<T>::write(ofs, elem);
+                persister::write(ofs, elem);
             }
         }
         catch (std::exception e) {
@@ -104,7 +95,7 @@ private:
                     std::stringstream ss2(s_tmp);
                     ss2 >> capacity;
 
-                    while (pvec_persister<T>::read(ifs, tmp)) {
+                    while (persister::read(ifs, tmp)) {
                         vec.push_back(tmp);
                     }
                 }
@@ -187,3 +178,4 @@ public:
 };
 
 #endif
+#endif //PVECTOR_H_TRAITS

@@ -1,17 +1,20 @@
 #include <vector>
 #include <sstream>
 
-class rpn
-{
+class rpn {
 private:
-	std::vector<double> stack;
-	double tmp;
-	int evaluate_postfix(const char operation);
-	void print_stack();
+    std::vector<double> stack;
+    double tmp;
+
+    int evaluate_postfix(const char operation);
+
+    void print_stack();
 
 public:
-	rpn();
-	~rpn();
-	void run();
+    rpn();
+
+    ~rpn();
+
+    void run();
 };
 

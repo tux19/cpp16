@@ -1,4 +1,4 @@
-#include "playfield.h"
+#include "ren_playfield.h"
 #include <iostream>
 #include <future>
 /*
@@ -29,9 +29,9 @@ public:
 
 using namespace std;
 
-void playfield::stoneset(int x, int y, int toSet){
-	playfield::rep[x][y] = toSet;
-	return;
+void playfield::stoneset(int x, int y, int toSet) {
+    playfield::rep[x][y] = toSet;
+    return;
 }
 int playfield::checkwinnerhorizontal(){
 	int player = playfield::currentplayer;
@@ -102,21 +102,21 @@ int playfield::checkwinner(){
 	return playfield::winner;
 }
 
-playfield::playfield(){
-		for(int i=0;i<playfield::width;i++){
-			for(int j=0;j<playfield::height;j++){
-				stoneset(i,j,0);
-			}
-		}
+playfield::playfield() {
+    for (int i = 0; i < playfield::width; i++) {
+        for (int j = 0; j < playfield::height; j++) {
+            stoneset(i, j, 0);
+        }
+    }
 }
 
 
-void playfield::nextplayer(){
-	if(playfield::currentplayer == 1){
-		playfield::currentplayer = 2;
-	}else{
-		playfield::currentplayer = 1;
-	}
+void playfield::nextplayer() {
+    if (playfield::currentplayer == 1) {
+        playfield::currentplayer = 2;
+    } else {
+        playfield::currentplayer = 1;
+    }
 }
  int playfield::gravity(int x,int y){ //Return 1 if illegal move (column full)
  	if(playfield::stoneat(x,y) != 0){
@@ -134,14 +134,14 @@ void playfield::nextplayer(){
 }
 
 
-void playfield::drawfield(){
-	for(int y=0;y<playfield::height;y++){
-		for(int x=0;x<playfield::width;x++){
-			cout <<"|"<< playfield::stoneat(x,y)<"|";
+void playfield::drawfield() {
+    for (int y = 0; y < playfield::height; y++) {
+        for (int x = 0; x < playfield::width; x++) {
+            cout << "|" << playfield::stoneat(x, y) < "|";
 
-			}
-				cout << endl;
-		}
+        }
+        cout << endl;
+    }
 }
 
 void playGame(/*player<T> player1, player<T> player2*/){
