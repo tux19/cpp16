@@ -16,7 +16,7 @@ template<typename F>
 class rc_ai_player : public player<F>{
 private:
     std::unique_ptr<sc_playfield> myPlayfield;
-    int myPlayerNo;
+    int myPlayer_No;
     int depthLimit = 8;
     int maxAction;
 
@@ -181,28 +181,40 @@ private:
     }
 
     double h_minimax(const std::unique_ptr<sc_playfield> &state, int depth){
+
+        //tests if recursion depth is too high
         if(cutoff_test(state,depth)){
+            //evaluates the current state of the board and sets maxAction and exits
             return eval(state);
         }
 
+        //all possible actions
         std::unique_ptr<std::vector<int>> possibleActions = actions(state);
 
-        if(playerTurn(state) == myPlayerNo){
+
+        if(playerTurn(state) == myPlayer_No){
             // max
             int maxAction;
             double maxValue = -1 * std::numeric_limits<double>::max();
 
+            // iteration over all possible actions
             for(int a : *possibleActions){
+                //try the move
                 makeMove(state, a);
+
+                //recursive call to get the highest value
                 double value = h_minimax(state, depth + 1);
 
+                // remove stone
                 undoMove(state, a);
 
+                // if value of next iteration > set maxValue and maxAction
                 if(value > maxValue){
                     maxValue = value;
                     maxAction = a;
                 }
             }
+
             this->maxAction = maxAction;
 
             return maxValue;
@@ -229,35 +241,39 @@ private:
 
 public:
     rc_ai_player(){
-        myPlayerNo = -1;
+        myPlayer_No = -1;
         maxAction = 0;
         std::unique_ptr<sc_playfield> f(new sc_playfield());
         myPlayfield = move(f);
     }
 
     int play(const F &field){
+        // copys field
         std::unique_ptr<sc_playfield> f(new sc_playfield(field));
         myPlayfield = move(f);
 
         // am I player 1 or player 2?
-        if(myPlayerNo == -1){
-            myPlayerNo = playerTurn(myPlayfield);
+        if(myPlayer_No == -1){
+            myPlayer_No = playerTurn(myPlayfield);
         }
 
         std::cout << "Renato & Christian's AI is thinking ... " << std::endl;
 
         int selectedCol = -1;
 
+        // all columns where a move is possible (not full yet)
         auto possibleCol = actions(myPlayfield);
+
+        // test for every possible move if its possible to win for both players
         for(int c : *possibleCol){
             // check if I can win
-            if(tryMove(myPlayerNo, c)){
+            if(tryMove(myPlayer_No, c)){
                 selectedCol = c;
                 break;
             }
 
             // check if other player can win
-            if(tryMove((myPlayerNo == 1) ? 2 : 1, c)){
+            if(tryMove((myPlayer_No == 1) ? 2 : 1, c)){
                 selectedCol = c;
             }
         }
