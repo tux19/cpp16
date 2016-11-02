@@ -8,7 +8,7 @@ class myexception : public std::exception {
     }
 } division_by_zero;
 
-fraction::fraction(int c, int d = 1)
+fraction::fraction(int c, int d)
         : _cntr(c), _denom(d) {
     if (d == 0) {
         throw division_by_zero;
