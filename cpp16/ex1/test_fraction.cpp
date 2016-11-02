@@ -167,14 +167,37 @@ void test_fraction::run_static() {
 }
 
 void test_fraction::run_dynamic() {
-    std::cout << "Enter a fraction: ";
-    fraction f1, f2;
-    std::cin >> f1;
-
-    std::cout << "Enter a second fraction: ";
-    std::cin >> f2;
-
-    std::cout << "Enter '+', '-', '*', '/', ";
-
-
+std::cout << "Enter a fraction: ";
+	fraction f1, f2;
+	std::cin >> f1;
+	std::cout << "Enter a second fraction: ";
+	std::cin >> f2;
+	std::cout << "Enter '+', '-', '*', '/' , '>' ,'<', '>=' ,'<=', '==' ,'!='\n";
+	std::string input = "";
+	std::getline(std::cin,input);
+	if(input == "+"){
+		std::cout << f1 + f2<< "\n";
+	}else if(input == "-"){
+		std::cout << f1 - f2<< "\n"; 
+	}else if(input == "*"){
+		std::cout << f1 * f2<< "\n";
+	}else if(input == "/"){
+		std::cout << f1 / f2<< "\n"; 
+	}else if(input == ">"){
+		std::cout << (f1>f2)<< "\n";
+	}else if(input == "<"){
+		std::cout << (f1<f2)<< "\n";
+	}else if(input == ">="){
+		std::cout << (f1>=f2)<< "\n";
+	}else if(input == "<="){
+		std::cout << (f1<=f2)<< "\n";
+	}else if(input == "=="){
+		std::cout << (f1==f2)<< "\n";
+	}else if(input == "!="){
+		std::cout << (f1!=f2)<< "\n";
+	}
+	
+	std::cout << "Abort testing? [y/n] :\n";
+	std::getline(std::cin,input);
+	if(input[0]!='y') { run_dynamic(); }
 }
