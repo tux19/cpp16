@@ -13,7 +13,7 @@
 #include "player.h"
 
 template<typename F>
-class rc_ai_player : public player<F>{
+class rc_ai_dumb_player : public player<F>{
 private:
     std::unique_ptr<sc_playfield> myPlayfield;
     int myPlayer_No;
@@ -240,7 +240,7 @@ private:
     }
 
 public:
-    rc_ai_player(){
+    rc_ai_dumb_player(){
         myPlayer_No = -1;
         maxAction = 0;
         std::unique_ptr<sc_playfield> f(new sc_playfield());
