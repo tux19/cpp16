@@ -9,5 +9,6 @@ void add_word(std::set<std::string> *dV,std::string w);
 void check_dict(std::vector<std::string> dictV, std::vector<std::string> textV);
 void writetext(std::vector<std::string> tV,std::string const &filename);
 void loadtext(std::vector<std::string> *tV,std::string filename);
+void loaddict(std::set<std::string> *tV,std::string filename);
+void writedict(std::set<std::string> tV,std::string const &filename);
 #endif
-
