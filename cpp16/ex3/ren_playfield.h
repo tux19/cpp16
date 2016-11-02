@@ -27,7 +27,6 @@ public:
     // stoneat(width-1, height-1) .. bottom right
     // if we insert a stone in a new game in column i,
     // it lands at (i,height-1)
-<<<<<<< Updated upstream:cpp16/ex3/playfield.h
 	void stoneset(int x, int y, int toSet);
 	int gravity(int x, int y); //returns if move is legal
 	void drawfield(); //console output
@@ -38,25 +37,7 @@ public:
 		int checkwinnerdiagonal2();
 
 	void resetfield(); // reset rep[][]
-	void nextplayer(); 
-=======
-    void stoneset(int x, int y, int toSet);
-
-    int gravity(int x, int y); //returns if move is legal
-    void drawfield(); //console output
-    int checkforwinner(); // sets winner => 0:no winner 1:player1 2:player2
-    int checkforwinnervertically();
-
-    int checkforwinnerhorizontally();
-
-    int checkforwinnerdiagonal1();
-
-    int checkforwinnerdiagonal2();
-
-    void resetfield(); // reset rep[][]
-    void nextplayer();
-
->>>>>>> Stashed changes:cpp16/ex3/ren_playfield.h
+	void nextplayer();
     int stoneat(int x, int y) const { return rep[x][y]; }
 
     ~ren_playfield() {
