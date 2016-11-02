@@ -1,4 +1,3 @@
-#include <iostream>
 /*
 Containers to consider:
 Sequentielle Containerklassen
