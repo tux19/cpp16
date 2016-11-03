@@ -2,8 +2,6 @@
 #ifndef CPP16_RC_AI_DUMB_PLAYER_H
 #define CPP16_RC_AI_DUMB_PLAYER_H
 
-#ifndef CPP16_SC_AI_PLAYER_H
-#define CPP16_SC_AI_PLAYER_H
 #include <iostream>
 
 #include <vector>
@@ -149,6 +147,4 @@ public:
         return selectedCol;
     }
 };
-#endif //CPP16_SC_AI_PLAYER_H
-
 #endif //CPP16_RC_AI_DUMB_PLAYER_H

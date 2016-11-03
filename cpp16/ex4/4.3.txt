@@ -1,87 +1,71 @@
-header.h:
-extern int error_number; //Global Variable
-static double sq(double); //Static  
-const double pi=3.5; // Constant :^)
-extern "C" void c_swap(int *a, int *b); // global Function
-double sqrt(double); // declaration
-struct fraction { int c; int d; }; // declaration
-void swap(int &a, int &b) { int c=a; a=b; b=c; } // Can be done but increases compiletime
-namespace NS { int a; }
-
-x.cpp:
-char ch;  //Variable with local scop (will lead to clashes by chance)
-string s; // see above
-int count=1; // see above
-struct user; //Causes compiler to fail if in header
-char *name="It's me";  
-char *prog[]={"echo","hello","world!",NULL};
-
+-----------
 char ch;
 
 depends, most likely header.
-since the hole class should have access to it.
-
+since variable declaration, source file if used as local variable
+-----------
 string s;
 
 depends, most likely header.
-since the hole class should have access to it.
-
-
+since variable declaration, source file if used as local variable
+-----------
 extern int error_number;
 
 header.
 extern tells the compiler that the variabel is declared here and defined somewhere else.
-
+-----------
 static double sq(double);
 
 header.
 static variable is the same for every obj of the class
-
+-----------
 int count=1;
 
 depends:
-header if something like a counted pointer.
-
-impl file if e.g. in loop.
-
+most likely source, since not const
+header if something like a reference counter
+-----------
 const double pi=3.5;
-
 header
 if it doesn't change, it should be clearly visible.
-
+-----------
 struct fraction { int c; int d; };
 
-depends on the implementation.
-most likely it isn't a helper-struct, therefore header.
-
+declaration therefore header
+-----------
 char *name="It's me";
 
-depends.
-most likely header since init. with a fixed char array
-
+most likely source since allocation of memory, becouse its small itmay also be in header
+-----------
 char *prog[]={"echo","hello","world!",NULL};
 
-depends.
-most likely header since init. with a fixed char array array.
+most likely source since allocation of memory, may be expensive in header
+-----------
 
 extern "C" void c_swap(int *a, int *b);
 
 header
 extern decl.
+-----------
 
 double sqrt(double);
 
 header function decl.
+-----------
 
 void swap(int &a, int &b) { int c=a; a=b; b=c;}
 
-header function decl and def.
+source, may also be inlined in header
+-----------
+template<typename T> T add(T a, T b) { return a+b; }
+header, template definition
 
+-----------
 namespace NS { int a; }
 
 most likely header.
 should be available for the hole namespace. including something in a not .h-file might cause unexpected errors. (not including the necessary file)
-
+-----------
 struct user;
 
 header.

@@ -1,7 +1,3 @@
-//
-// Created by Christian Ott on 02.11.2016.
-//
-
 #ifndef CPP16_PLAYER_H
 #define CPP16_PLAYER_H
 

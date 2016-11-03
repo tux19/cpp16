@@ -72,11 +72,14 @@ private:
     };
 
 public:
-    pset(std::string fname) : filename {fname}, s {} {
-        persister::read_set();
+    pset(std::string fname) : filename {fname}{
+        read_set();
+    };
+    pset(std::string fname, pset& set) : filename {fname} {
+        s = set.s;
     };
     ~pset() {
-        persister::write_set();
+        write_set();
     };
 
     size_t size() {

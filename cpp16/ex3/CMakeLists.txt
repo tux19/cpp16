@@ -15,7 +15,9 @@ set(EX3 main.cpp
         connect4/rc_playfield.h
         connect4/rc_ai_player.h
         connect4/rc_human_player.h
-        connect4/rc_ai_dumb_player.h)
+        connect4/rc_ai_dumb_player.h
+        spellchecker.h
+        spellchecker.cpp)
 
 add_executable(ex3 ${EX3})
 target_include_directories(ex3 PUBLIC "${PROJECT_SOURCE_DIR}/ex3")

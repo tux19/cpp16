@@ -1,7 +1,3 @@
-//
-// Created by Christian Ott on 30.10.2016.
-//
-
 #include <iostream>
 #include "fraction.h"
 #include "rpn_pvec.h"
@@ -9,7 +5,7 @@
 #include "connect4/rc_playfield.h"
 #include "connect4/rc_human_player.h"
 #include "connect4/rc_ai_player.h"
-
+#include "spellchecker.h"
 int main(int argc, const char* argv[]) {
     std::cout
             << "------------------------------------------------------------\n|		TASK 3.1 \n ------------------------------------------------------------"
@@ -18,7 +14,8 @@ int main(int argc, const char* argv[]) {
     std::cout
             << "------------------------------------------------------------\n|		TASK 3.2 \n ------------------------------------------------------------"
             << std::endl;
-
+    spellchecker c;
+    c.run("dict.txt","text.txt");
     std::cout
             << "------------------------------------------------------------\n|		TASK 3.3 \n ------------------------------------------------------------"
             << std::endl;

@@ -1,6 +1,5 @@
+
 #include "fraction.h"
-#include <iostream>
-#include <exception>
 
 class myexception : public std::exception {
     virtual const char *what() const throw() {

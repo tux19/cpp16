@@ -1,6 +1,5 @@
 
 class test_fraction {
-    bool test_gcd();
 
 public:
     test_fraction();
