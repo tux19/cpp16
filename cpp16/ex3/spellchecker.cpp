@@ -4,17 +4,12 @@
 #include <fstream>
 #include <algorithm> //std::replace
 #include <set>
-#include <string>
 
 using namespace std;
 
 void replace_word(vector<string> *tV,const string &w,const string &newWord){replace((*tV).begin(),(*tV).end(),w,newWord);}
 void add_word(set<string> *dV,string w){(*dV).insert(w);}
 
-void parse_cmdline(int argc, char *argv[])
-{
-    
-}
 void loadtext(vector<std::string> *tV,std::string filename){
 	ifstream myReadFile;
 	 myReadFile.open(filename);
