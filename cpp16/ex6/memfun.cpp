@@ -8,6 +8,7 @@
 
 
 
+/*
 int main(){
     std::vector<std::string*> numbers;
     numbers.push_back(new std::string(""));
@@ -21,4 +22,4 @@ int main(){
     }
     return 0;
 
-}
+}*/
