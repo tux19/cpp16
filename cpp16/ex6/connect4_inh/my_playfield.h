@@ -30,7 +30,7 @@ public:
     bool check_full();
     void print_field();
     virtual int stoneat(int x, int y) const {
-        //(x < playfield::width && y < playfield::height);
+        assert(x < playfield::width && y < playfield::height);
         return field[x][y];}
 };
 #endif //CPP16_my_PLAYFIELD_H

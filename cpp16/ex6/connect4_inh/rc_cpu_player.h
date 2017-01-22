@@ -80,6 +80,10 @@ private:
         for(int count = 0; count < 3; ++count){
             col += colOffset;
             row += rowOffset;
+
+            if(col < 0 || row < 0 || row >= playfield::height || col >= playfield::width)
+                return 0;
+
             if(state->stoneat(col, row) != player)
                 return 0;
         }
@@ -243,7 +247,7 @@ public:
             myPlayerNo = playerTurn(myPlayfield);
         }
 
-        std::cout << "Marco's AI is thinking ... " << std::endl;
+        std::cout << "Renato & Christian's AI is thinking ...  ... " << std::endl;
 
         int selectedCol = -1;
 
@@ -267,7 +271,7 @@ public:
             selectedCol = maxAction;
         }
 
-        std::cout << "Marco's AI chose column: " << selectedCol << std::endl;
+        std::cout << "Renato & Christian's AI chose column: " << selectedCol << std::endl;
 
         return selectedCol;
     }

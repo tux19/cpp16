@@ -13,19 +13,20 @@
 #include "connect4_inh/my_playfield.h"
 #include "connect4_inh/connect4.h"
 #include "connect4_inh/rc_cpu_player_dumb.h"
-#include "connect4_inh/rc_human_player.h"
 #include "connect4_inh/extern/reto_ai.h"
 #include "connect4_inh/extern/rkoch_ai.h"
-#include "connect4_inh/rc_cpu_player.h"
 #include "connect4_inh/rc_cpu_player_inh.h"
 
 int main(int argc, const char* argv[]){
 
     std::cout << "------------------------------------------------------------\n|		TASK 6.1 \n ------------------------------------------------------------"
               << std::endl;
-
-    connect4< my_playfield, rc_cpu_player<my_playfield>, rc_cpu_player_dumb<my_playfield>> game;
-    //game.runGame();
+    rc_cpu_player_inh p1;
+    rc_cpu_player_dumb_inh p2;
+    rkoch_ai p3;
+    retos_computerplayer p4(2);
+    connect4< my_playfield> game(&p1,&p2);
+    game.runGame();
 
     std::cout << "------------------------------------------------------------\n|		TASK 6.2 \n ------------------------------------------------------------"
               << std::endl;

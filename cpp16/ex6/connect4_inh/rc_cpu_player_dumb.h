@@ -188,7 +188,7 @@ public:
             my_player_no = player_turn();
         }
 
-        std::cout << "Renato & Christian's AI is thinking ... " << std::endl;
+        std::cout << "Renato & Christian's dumb AI is thinking ... " << std::endl;
 
         int selected_col = -1;
 
