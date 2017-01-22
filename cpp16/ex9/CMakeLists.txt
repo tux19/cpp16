@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(ex9 CXX)
 
-set(EX9 )
+set(EX9 main.cpp )
 #[[  spellchecker.h
   spellchecker.cpp)]]
 

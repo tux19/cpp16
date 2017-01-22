@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(ex7 CXX)
 
-set(EX7
-        stdbackdriver.cpp)
+set(EX7 main.cpp
+        rangecheckingiterator.h
+        merger.h)
  #[[rangecheckingiterator.h
       rangecheckingiteratordriver.cpp
         limitedstack.cpp

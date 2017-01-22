@@ -6,44 +6,71 @@
 #define CPP16_RANGECHECKINGITERATOR_H
 #include <iostream>
 #include <vector>
-template <typename T>
+template <typename iterator>
 class rangecheckingiterator {
-    typedef typename std::vector<T>::iterator iterator;
+
 private:
 
     iterator _begin;
     iterator _end;
     iterator _current;
+    typedef typename std::iterator_traits<iterator>::value_type value_type;
+    typedef typename std::iterator_traits<iterator>::pointer pointer;
+    typedef typename std::iterator_traits<iterator>::reference reference;
 
 public:
-    rangecheckingiterator(iterator begin , iterator end, iterator current) :_begin(begin),_end(end),_current(current) {}
-   ~rangecheckingiterator(){
+    rangecheckingiterator(iterator begin , iterator end, iterator current)
+            :_begin(begin),_end(end),_current(current) {}
+    rangecheckingiterator(iterator begin , iterator end)
+            :_begin(begin),_end(end),_current(begin) {}
 
-   }
+   ~rangecheckingiterator(){}
 
-    T *operator->() const{
-      return *(_current);
-    }
-    iterator begin(){ return _begin; }
-    iterator end(){ return _end;}
-    iterator current(){return _current;}
-    void operator++(int) { // throws std::out_of_range
-        if (_current++ != _end) {
-            _current++;
-        } else {
-            throw std::out_of_range("Out of range");
+    //preincrement
+    rangecheckingiterator operator++(){
+        if (_current == (_end - 1)) { // end - 1 because end is AFTER the last element; mathematically: [begin, end)
+            throw std::range_error("Iterator overflow");
         }
+        _current++;
+        return *this;
     }
-
-    void operator--(int i){// throws std::out_of_range
-        if(_current-- != _begin){
-            _current--;
-        }else{
-            throw std::out_of_range("Out of range");
+    rangecheckingiterator operator--(){
+        if (_current == _begin) {
+            throw std::range_error("Iterator underflow");
         }
+        _current--;
+
+        return *this;
+    }
+    //postincrement
+    rangecheckingiterator operator++(int){
+        rangecheckingiterator tmp(*this);
+        operator++();
+        return tmp;
+    }
+    rangecheckingiterator operator--(int){
+        rangecheckingiterator tmp(*this);
+        operator--();
+        return tmp;
     }
 
+    value_type operator *(){
+        if (_current == _end) {
+            throw std::range_error("Out of bounds");
+        }
+        return *_current;;
 
+    }
+    pointer operator->() const{
+        return &*_current;
+    }
+
+    bool operator ==(rangecheckingiterator const& other) const{
+        return (_begin == other._begin) && (_end == other._end) && (_current == other._current);
+    }
+    bool operator !=(rangecheckingiterator const& other) const{
+        return !operator==(other);
+    }
 };
 
 

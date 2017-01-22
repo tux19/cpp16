@@ -4,7 +4,7 @@
 
 #include "constdeconst.h"
 #include <iostream>
-int main(){
- subconstdeconst r;
-    return 0;
-}
+//int main(){
+// subconstdeconst r;
+//    return 0;
+//}

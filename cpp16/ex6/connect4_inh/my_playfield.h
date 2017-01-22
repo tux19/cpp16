@@ -1,5 +1,7 @@
 #ifndef CPP16_my_PLAYFIELD_H
 #define CPP16_my_PLAYFIELD_H
+
+#include <assert.h>
 #include "playfield.h"
 
 class my_playfield : public playfield {
@@ -27,6 +29,8 @@ public:
     bool check_win(int player_no);
     bool check_full();
     void print_field();
-    virtual int stoneat(int x, int y) const { return field[x][y];}
+    virtual int stoneat(int x, int y) const {
+        //(x < playfield::width && y < playfield::height);
+        return field[x][y];}
 };
 #endif //CPP16_my_PLAYFIELD_H

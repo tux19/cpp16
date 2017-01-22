@@ -3,10 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include "player.h"
 
 template<typename F>
-class rc_human_player : public player<F>{
+class rc_human_player{
 public:
     int play(const F &field){
         int selectedCol = -1;

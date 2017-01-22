@@ -11,13 +11,11 @@
 #include <cstdlib>
 #include <memory>
 #include <random>
-#include "rc_playfield.h"
-#include "player.h"
 
 template<typename F>
-class rc_ai_dumb_player : public player<F>{
+class rc_cpu_player_dumb{
 private:
-    std::unique_ptr<sc_playfield> myPlayfield;
+    std::unique_ptr<F> myPlayfield;
     int myPlayer_No;
 
     /*
@@ -47,7 +45,7 @@ private:
 
 
 
-    int playerTurn(const std::unique_ptr<sc_playfield> &state){
+    int playerTurn(const std::unique_ptr<F> &state){
         int p1 = 0, p2 = 0;
 
         // count stones
@@ -62,7 +60,7 @@ private:
         return (p1 <= p2 ? F::player1 : F::player2);
     }
 
-    std::unique_ptr<std::vector<int>> actions(const std::unique_ptr<sc_playfield> &state){
+    std::unique_ptr<std::vector<int>> actions(const std::unique_ptr<F> &state){
         std::unique_ptr<std::vector<int>> v( new std::vector<int>());
 
         for(int i = 0; i < F::width; ++i) {
@@ -74,7 +72,7 @@ private:
     }
 
 
-    void makeMove(const std::unique_ptr<sc_playfield> &state, int action){
+    void makeMove(const std::unique_ptr<F> &state, int action){
         int result = -1;
         for(int r = F::height - 1; r >= 0 && result != 0; --r) {
             if(state->stoneat(action, r) == F::none) {
@@ -84,7 +82,7 @@ private:
         }
     }
 
-    void undoMove(const std::unique_ptr<sc_playfield> &state, int action){
+    void undoMove(const std::unique_ptr<F> &state, int action){
         int result = -1;
         for(int r = 0; r < F::height && result != 0; ++r) {
             if(state->stoneat(action, r) == playerTurn(state)) {
@@ -97,15 +95,15 @@ private:
 
 
 public:
-    rc_ai_dumb_player(){
+    rc_cpu_player_dumb(){
         myPlayer_No = -1;
-        std::unique_ptr<sc_playfield> f(new sc_playfield());
+        std::unique_ptr<F> f(new F());
         myPlayfield = move(f);
     }
 
     int play(const F &field){
         // copys field
-        std::unique_ptr<sc_playfield> f(new sc_playfield(field));
+        std::unique_ptr<F> f(new F(field));
         myPlayfield = move(f);
 
         // am I player 1 or player 2?

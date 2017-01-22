@@ -120,7 +120,7 @@ bool my_playfield::check_diagonal(int player_no) {
     // same principle for other diagonal, but from the other side
     int startCol = 0;
     // for every possible start col
-    for(startCol = 0; startCol < width-4; startCol++){
+    for(startCol = 0; startCol < width-3; startCol++){
         for(int start_row = 3; start_row < height; start_row++){
             for (int h = 0 ; h < 4; ++h) {
                 if(stoneat(startCol + h,start_row - h) == player_no) {
@@ -136,7 +136,8 @@ bool my_playfield::check_diagonal(int player_no) {
 
         }
     }
-    for(startCol = width - 1; startCol >= 3; startCol--){
+    counter = 0;
+    for(startCol = width - 1; startCol > 2; startCol--){
         for(int start_row = 3; start_row < height; start_row++){
             for (int h = 0 ; h < 4; ++h) {
                 if(stoneat(startCol - h,start_row - h) == player_no) {

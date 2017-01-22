@@ -5,9 +5,8 @@
 
 
 #include "rc_playfield.h"
-#include "player.h"
 
-template<typename F, typename P1=player<F>, typename P2=player<F>>
+template<typename F, typename P1, typename P2>
 class connect4 {
 private:
     F *field;
