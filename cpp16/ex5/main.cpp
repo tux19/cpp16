@@ -77,17 +77,16 @@ int main(int argc, const char * argv[])
 
     pointer::dumb_pointer<Object> pob(ob);
 
-    std::cout << "Start dumb_pointer tests" << std::endl;
+    std::cout << "test dumb :\n" << std::endl;
 
     std::cout << *pob << std::endl;
     std::cout << pob->description() << std::endl;
 
-    std::cout << "End dumb_pointer tests" << std::endl;
 
-    std::cout << "Start smart_pointer tests" << std::endl;
+    std::cout << "test smart :\n" << std::endl;
     foo();
-    std::cout << "End smart_pointer tests" << std::endl;
 
+    
     std::cout << "------------------------------------------------------------\n|	   TASK 5.2 \n ------------------------------------------------------------"
               << std::endl;
     int a = 3;

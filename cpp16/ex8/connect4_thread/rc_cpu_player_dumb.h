@@ -17,8 +17,8 @@ class rc_cpu_player_dumb: public player{
 private:
     int _field[ playfield::width][ playfield::height];
     int my_player_no;
-
-    static std::default_random_engine e{};
+    std::random_device rdev{};
+    std::default_random_engine e{rdev()};
 
 
     int stoneat(int width, int height){ return _field[width][height];};
@@ -172,8 +172,9 @@ public:
 
         // if neither of the players can win, chose random
         if(selected_col == -1) {
-            std::uniform_int_distribution<> dis(1, (int) possible_col->size());
-            selected_col = dis(e) - 1;
+            std::uniform_int_distribution<int> dis(1, (int) possible_col->size());
+
+            selected_col = (*possible_col)[(dis(e) - 1)];
         }
 
         std::cout << "R&C Dumb AI chose column: " << selected_col << std::endl;

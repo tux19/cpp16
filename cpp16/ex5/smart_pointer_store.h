@@ -1,7 +1,3 @@
-//
-// Created by Christian Ott on 22.01.2017.
-//
-
 #ifndef CPP16_SMART_POINTER_STORE_H
 #define CPP16_SMART_POINTER_STORE_H
 namespace pointer {

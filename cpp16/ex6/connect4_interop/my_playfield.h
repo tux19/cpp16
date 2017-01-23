@@ -2,11 +2,13 @@
 #define CPP16_EX6_CON4_INTEROP_MY_PLAYFIELD_H
 
 #include <assert.h>
+#include <array>
 #include "playfield.h"
+using field_array =std::array<std::array<int, playfield::height>, playfield::width>;
 
 class my_playfield : public playfield {
     // the internal representation of the field -- may be changed
-    int field[ playfield::width][ playfield::height];
+    field_array field;
 public:
     // constructor
     my_playfield();
@@ -23,9 +25,6 @@ public:
     ~my_playfield();
 
 
-    bool check_horizontal(int player_no);
-    bool check_vertical(int player_no);
-    bool check_diagonal(int player_no);
     bool check_win(int player_no);
     bool check_full();
     void print_field();

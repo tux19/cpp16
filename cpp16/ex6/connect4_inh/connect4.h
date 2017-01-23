@@ -1,5 +1,5 @@
-#ifndef CPP16_CONNECT4_H
-#define CPP16_CONNECT4_H
+#ifndef CPP16_CONNECT4_INTEROP
+#define CPP16_CONNECT4_INTEROP
 
 #include <iostream>
 
@@ -102,4 +102,4 @@ public:
         }
     }
 };
-#endif //CPP16_CONNECT4_H
+#endif //CPP16_CONNECT4_INTEROP

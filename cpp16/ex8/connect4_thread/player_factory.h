@@ -7,7 +7,7 @@
 
 #include <string>
 #include "player.h"
-//#include "connect4_factory/rc_cpu_player.h"
+#include "rc_cpu_player.h"
 #include "rc_cpu_player_dumb.h"
 #include "rc_human_player.h"
 #include "extern/reto_ai.h"
@@ -19,7 +19,7 @@ public:
     player *get_player(const std::string type) {
         if (type=="human") return new rc_human_player();
         else if (type=="cpu_dumb") return new rc_cpu_player_dumb();
-//      else if (type=="cpu_minimax") return new rc_cpu_player_dumb();
+        else if (type=="cpu_minimax") return new rc_cpu_player();
         else if (type=="cpu_reto") return new retos_computerplayer();
         else if (type=="cpu_rkoch") return new rkoch_ai();
         else return nullptr;

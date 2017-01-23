@@ -1,7 +1,3 @@
-//
-// Created by Christian Ott on 22.01.2017.
-//
-
 #ifndef CPP16_MERGE_H
 #define CPP16_MERGE_H
 
@@ -17,7 +13,6 @@ public:
         std::copy(in2.begin(), in2.end(), std::back_inserter(out));
     }
 };
-
 
 
 #endif //CPP16_MERGE_H

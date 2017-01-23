@@ -1,6 +1,4 @@
-//
-// Created by HEAD on 18.12.2016.
-//
+
 
 #ifndef CPP16_UNLIMITEDSTACK_H
 #define CPP16_UNLIMITEDSTACK_H

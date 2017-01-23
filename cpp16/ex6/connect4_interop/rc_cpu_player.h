@@ -11,11 +11,12 @@
 #include <memory>
 #include "playfield.h"
 #include "player.h"
+using field_array =std::array<std::array<int, playfield::height>, playfield::width>;
 
 class rc_cpu_player : public player{
 private:
 
-    int _field[ playfield::width][ playfield::height];
+    field_array _field;
 
     int my_player_no;
     int depth_limit = 8;
@@ -31,52 +32,31 @@ private:
         _field[col][row] = player;
     }
 
+    bool check_win(int player_no) {
 
-
-    bool check_horizontal(int player_no) {
-
-        bool has_won= false;
-        int counter = 0;
-
-        // for each row
-        for(int r = 0; r < playfield::height && !has_won; ++r) {
-            for(int c = 0; c < playfield::width && !has_won; ++c) {
-                counter = stoneat(c,r) == player_no ? counter + 1 : 0;
-                // if 4 stones in a row
-                if(counter == 4) {
-                    has_won = true;
+        int start_col = 0;
+        // horizontal
+        for(start_col = 0; start_col < playfield::width; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col, start_row - 1) == player_no &&
+                    stoneat(start_col, start_row - 2) == player_no &&
+                    stoneat(start_col, start_row - 3) == player_no) {
+                    return true;
                 }
             }
-            counter = 0;
         }
-        return has_won;
-    }
-
-// check if player has won with 4 vertical stones
-    bool check_vertical(int player_no) {
-
-        bool has_won = false;
-        int counter = 0;
-
-        // for each column
-        for(int c = 0; c < playfield::width && !has_won; ++c) {
-            for(int r = 0; r < playfield::height && !has_won; ++r) {
-                counter = stoneat(c,r) == player_no ? counter + 1 : 0;
-                if(counter == 4) {
-                    has_won = true;
+        // vertical
+        for(start_col = 0; start_col < playfield::width-3; start_col++){
+            for(int start_row = 0; start_row < playfield::height; start_row++){
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col + 1, start_row) == player_no &&
+                    stoneat(start_col + 2, start_row) == player_no &&
+                    stoneat(start_col + 3, start_row) == player_no) {
+                    return true;
                 }
             }
-            counter = 0;
         }
-        return has_won;
-    }
-
-// check if player has won with 4 diagonal stones
-    bool check_diagonal(int player_no) {
-
-        bool has_won = false;
-        int counter = 0;
-
         // spans a parallelogram where the diagonal sides have length 4
         // and the vertical sides height - 3
         // the parallelogram is moved to the left until it reaches the last column
@@ -90,38 +70,30 @@ private:
         // ---------------
         //  0 1 2 3 4 5 6
 
+        // diagonal bottom left to top right
+        for(start_col = 0; start_col < playfield::width - 3; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col + 1, start_row - 1) == player_no &&
+                    stoneat(start_col + 2, start_row - 2) == player_no &&
+                    stoneat(start_col + 3, start_row - 3) == player_no) {
+                    return true;
+                }
+            }
+        }
         // same principle for other diagonal, but from the other side
-        int start_col = 0;
-        // for every possible start col
-        for(start_col = 0; start_col < playfield::width-3; start_col++){
-            for(int start_row = 3; start_row < playfield::height; start_row++){
-                for (int h = 0 ; h < 4; ++h) {
-                    counter = stoneat(start_col + h, start_row - h) == player_no ? counter + 1 : 0;
-                    if (counter == 4) {
-                        has_won = true;
-                    }
-                }
-            }
-        }
-        counter = 0;
+        // diagonal bottom right to top left
         for(start_col = playfield::width - 1; start_col > 2; start_col--){
-            for(int start_row = 3; start_row < playfield::height; start_row++){
-                for (int h = 0 ; h < 4; ++h) {
-                    counter = stoneat(start_col - h, start_row - h) == player_no ? counter + 1 : 0;
-                    if (counter == 4) {
-                        has_won = true;
-                    }
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col - 1, start_row - 1) == player_no &&
+                    stoneat(start_col - 2, start_row - 2) == player_no &&
+                    stoneat(start_col - 3, start_row - 3) == player_no) {
+                    return true;
                 }
             }
         }
-        return has_won;
-    }
-    bool check_win(int player_no) {
-
-        bool hasWon = check_horizontal(player_no);
-        hasWon = hasWon || check_vertical(player_no);
-        hasWon = hasWon || check_diagonal(player_no);
-        return hasWon;
+        return false;
     }
     /*
      * Simple one move ahead checking
@@ -169,53 +141,114 @@ private:
 
     std::unique_ptr<std::vector<int>> actions(){
         std::unique_ptr<std::vector<int>> v( new std::vector<int>());
+        int mid = playfield::width/2;
 
-        for(int i = 0; i < playfield::width; ++i) {
-            if(stoneat(i,0) == playfield::none)
-                v->push_back(i);
+        int dir = 0;
+        int offset = 0;
+        for( int i = 0; i < playfield::width; i++){
+            if(stoneat(mid + offset*dir, 0) == playfield::none)
+                v->push_back(mid + offset*dir);
+
+            if(dir == -1){
+                dir = 1;
+                continue;
+            }
+            if(dir == 1 || dir == 0){
+                dir = -1;
+                offset++;
+            }
         }
         return v;
+//        for(int i = 0; i < playfield::width; ++i) {
+//            if(stoneat(i,0) == playfield::none)
+//                v->push_back(i);
+//        }
+//        return v;
     }
 
     int try_line(int player, int col, int row, int colOffset, int rowOffset){
 
-        for(int count = 0; count < 3; ++count){
+        int score = 0;
+        for(int count = 0; count < 4; ++count){
+
+            if(col >= playfield::width || row >= playfield::height || row < 0 || col < 0)
+                return 0;
+
+            if(stoneat( col, row) == (player== playfield::player1 ? playfield::player2 : playfield::player1) )
+                return 0;
+            if(stoneat( col, row) == player)
+                score++;
+
             col += colOffset;
             row += rowOffset;
-            if(col >= playfield::width || row >= playfield::height){
-                return 0;
-            }
-            else if(stoneat(col, row) != player)
-                return 0;
         }
-        return 1;
+        return score;
+//        for(int count = 0; count < 3; ++count){
+//            col += colOffset;
+//            row += rowOffset;
+//            if(col >= playfield::width || row >= playfield::height || row < 0 || col < 0){
+//                return 0;
+//            }
+//            else if(stoneat(col, row) != player)
+//                return 0;
+//        }
+//        return 1;
     }
 
     int count_threats(int player, int col, int row){
-        if(stoneat(col,row) == playfield::none)
-            return 0;
-
-        return 	try_line(player, col, row, 1, 1) +
-                  try_line(player, col, row, 1, -1) +
-                  try_line(player, col, row, -1, -1) +
-                  try_line(player, col, row, -1, 1);
+        return 	try_line(player, col, row, 0, 1) +
+                  try_line(player, col, row, 1, 0) +
+                  try_line(player, col, row, 1, 1) +
+                  try_line(player, col, row, -1, -1);
 
     }
 
+    int count_winningrows(int player){
+        int res = 0;
+        int start_col = 0;
+        for(start_col = 0; start_col < playfield::width; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                res +=  try_line(player, start_col, start_row, 0, -1);
+            }
+        }
+
+        for(start_col = 0; start_col < playfield::width-3; start_col++){
+            for(int start_row = 0; start_row < playfield::height; start_row++){
+                res +=  try_line(player, start_col, start_row, 1, 0);
+            }
+        }
+
+        for(start_col = 0; start_col < playfield::width - 3; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                res += try_line( player, start_col, start_row, 1, -1);
+            }
+        }
+
+        for(start_col = playfield::width - 1; start_col > 2; start_col--){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                res += try_line( player, start_col, start_row, -1, -1);
+            }
+        }
+        return res;
+    }
     double eval(int player){
         int win = 0, lose = 0;
+        player = (player == playfield::player1 ? playfield::player2 : playfield::player1);
         int other_player = (player == playfield::player1 ? playfield::player2 : playfield::player1);
 
-        if(check_win(player)){
-            win = 1;
-            lose = 0;
-        } else if(check_win(other_player)){
-            win = 0;
-            lose = 1;
-        } else {
-            win = 0;
-            lose = 0;
-        }
+
+        win = count_winningrows( player);
+        lose = count_winningrows( other_player);
+//        if(check_win(player)){
+//            win = 1;
+//            lose = 0;
+//        } else if(check_win(other_player)){
+//            win = 0;
+//            lose = 1;
+//        } else {
+//            win = 0;
+//            lose = 0;
+//        }
 
         int my_odd_threats = 0, their_odd_threats = 0;
         for(int row = 0; row < playfield::height; row +=2){
@@ -234,12 +267,14 @@ private:
         }
 
         // coefficients found via genetic algorithms (https://github.com/TJSomething/cs773c-connect4-minimax)
-        std::vector<double> c{	0.2502943943301069,
-                             -0.4952316649483701,
-                             0.3932539700819625,
-                             -0.2742452616759889,
-                             0.4746881137884282,
-                             0.2091091127191147};
+//        std::vector<double> c{	0.2502943943301069,
+//                             -0.4952316649483701,
+//                             0.3932539700819625,
+//                             -0.2742452616759889,
+//                             0.4746881137884282,
+//                             0.2091091127191147};
+
+        std::vector<double> c{	1,-1.2,0,0,0,0};
 
         return 	(c.at(0) * win) +
                   (c.at(1) * lose) +
@@ -249,19 +284,6 @@ private:
                   (c.at(5) * their_even_threats);
     }
 
-    bool cutoff_test( int d){
-        int player = player_turn();
-
-        if(player == playfield::player1){
-            return check_win(playfield::player1) ||
-                      d >= depth_limit ||
-                      actions()->size() == 0;
-        } else {
-            return check_win(playfield::player2) ||
-                      d >= depth_limit ||
-                      actions()->size() == 0;
-        }
-    }
 
     void make_move(int action, int player){
         int result = -1;
@@ -285,14 +307,18 @@ private:
 
     double h_minimax(int depth, int player){
 
+        std::unique_ptr<std::vector<int>> possibleActions = actions();
+
         //tests if recursion depth is too high
-        if(cutoff_test(depth)){
+        if(check_win(playfield::player1) ||
+                check_win(playfield::player2) ||
+                depth >= depth_limit ||
+                possibleActions->size() == 0){
             //evaluates the current state of the board and sets max_action and exits
             return eval(player);
         }
 
         //all possible actions
-        std::unique_ptr<std::vector<int>> possibleActions = actions();
 
         if(player == my_player_no){
             // max
@@ -351,17 +377,7 @@ public:
         int stone = -1;
         for(int i = 0; i < playfield::width; ++i) {
             for(int j = playfield::height -1 ; j >= 0; --j){
-                if(field.stoneat(i,j)!= _field[i][j]){
-                    stone = field.stoneat(i,j);
-                    setstoneat(i,j,stone);
-                    break;
-                }
-                if(field.stoneat(i,j)== playfield::none){
-                    break;
-                }
-            }
-            if(stone > -1){
-                break;
+                setstoneat(i,j,field.stoneat(i,j));
             }
         }
 

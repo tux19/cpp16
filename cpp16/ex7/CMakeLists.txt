@@ -3,7 +3,10 @@ project(ex7 CXX)
 
 set(EX7 main.cpp
         rangecheckingiterator.h
-        merger.h)
+        merger.h
+        limitedstack.h
+        unlimitedstack.h
+        )
  #[[rangecheckingiterator.h
       rangecheckingiteratordriver.cpp
         limitedstack.cpp

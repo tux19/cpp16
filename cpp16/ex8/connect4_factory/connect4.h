@@ -1,5 +1,5 @@
-#ifndef CPP16_CONNECT4_H
-#define CPP16_CONNECT4_H
+#ifndef CPP16_CONNECT4_FACT
+#define CPP16_CONNECT4_FACT
 
 #include <iostream>
 
@@ -62,6 +62,7 @@ public:
 
     int make_move(int player_no, int col){
         int result = -1;
+
 
         for(int r = F::height - 1; r >= 0 && result != 0; --r) {
             if(field->stoneat(col, r) == F::none) {
@@ -142,4 +143,4 @@ public:
         }
     }
 };
-#endif //CPP16_CONNECT4_H
+#endif //CPP16_CONNECT4_FACT

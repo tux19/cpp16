@@ -23,7 +23,6 @@ namespace pointer {
 
     public:
         //  This is to prevent a memory leak in the process of object instantiation.
-        //  Learned from GoingNative14 Stephan T. Lavavej's "Don't help the compiler lecture"
         smart_pointer() : pointee(nullptr), store(nullptr) {}
 
         smart_pointer(StoredType ptr) : smart_pointer() {

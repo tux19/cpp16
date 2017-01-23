@@ -1,5 +1,5 @@
-#ifndef CPP16_CONNECT4_H
-#define CPP16_CONNECT4_H
+#ifndef CPP16_CONNECT4_INH
+#define CPP16_CONNECT4_INH
 
 #include <iostream>
 
@@ -26,35 +26,6 @@ public:
     }
 
 
-    void print_field(){
-        // Rows
-        for(int r = 0; r < field->height; ++r) {
-
-            // Columns
-            for(int c = 0; c < field->width; ++c) {
-                if(field->stoneat(c, r) == F::player1) {
-                    std::cout << "X";
-                } else if(field->stoneat(c,r) == F::player2) {
-                    std::cout << "O";
-                } else {
-                    std::cout << " ";
-                }
-            }
-
-            std::cout << "|" << std::endl;
-        }
-
-        for(int i = 0; i < field->width; i++) {
-            std::cout << "-";
-        }
-        std::cout << std::endl;
-
-        for(int i = 0; i < field->width; i++) {
-            std::cout << i;
-        }
-        std::cout << std::endl << std::endl;
-    }
-
     int make_move(int player_no, int col){
         int result = -1;
 
@@ -80,7 +51,7 @@ public:
         int moveResult = -1;
 
         while(connect4::play) {
-            print_field();
+            field->print_field();
             roundRunning = true;
 
             while(roundRunning) {
@@ -94,8 +65,7 @@ public:
                 if(round%2 == 1) {
                     std::cout << "PLAYER 1: " << std::endl;
 
-                    const F *cField = const_cast<const F*>(field);
-                    move = player1->play(*field);
+                    move = player1->play(*const_cast<const F*>(field));
 
                     if(move == -1) {
                         play = false;
@@ -108,7 +78,7 @@ public:
                         roundRunning = false;
                         ++round;
                     } else if (moveResult == 1) {
-                        print_field();
+                        field->print_field();
                         std::cout << "PLAYER 1 HAS WON!!" << std::endl;
                         roundRunning = false;
                         play = false;
@@ -116,8 +86,7 @@ public:
                 } else if(round%2 == 0) {
                     std::cout << "PLAYER 2: " << std::endl;
 
-                    const F *cField = const_cast<const F*>(field);
-                    move = player2->play(*cField);
+                    move = player2->play(*const_cast<const F*>(field));
 
                     if(move == -1) {
                         play = false;
@@ -130,7 +99,7 @@ public:
                         roundRunning = false;
                         ++round;
                     } else if (moveResult == 1) {
-                        print_field();
+                        field->print_field();
                         std::cout << "PLAYER 2 HAS WON!!" << std::endl;
                         roundRunning = false;
                         play = false;
@@ -140,4 +109,4 @@ public:
         }
     }
 };
-#endif //CPP16_CONNECT4_H
+#endif //CPP16_CONNECT4_INH

@@ -12,77 +12,45 @@
 #include <memory>
 #include <random>
 #include "playfield.h"
+using field_array =std::array<std::array<int, playfield::height>, playfield::width>;
 
 template<typename F>
 class rc_cpu_player_dumb{
 private:
-    int _field[ playfield::width][ playfield::height];
+    field_array _field;
     int my_player_no;
-
+    std::random_device rdev{};
+    std::default_random_engine e{rdev()};
 
     int stoneat(int width, int height){ return _field[width][height];};
-    
-    // check if player has won with 4 horizontal stones
-    bool check_horizontal(int player_no) {
 
-        bool has_won = false;
-        int counter = 0;
+    bool check_win(int player_no) {
 
-        // for each row
-        for(int r = 0; r < playfield::height && !has_won; ++r) {
-
-            // for each column
-            for(int c = 0; c < playfield::width && !has_won; ++c) {
-                if(stoneat(c,r) == player_no) {
-                    ++counter;
-                } else {
-                    counter = 0;
-                }
-
-                // if 4 stones in a row
-                if(counter == 4) {
-                    has_won = true;
+        int start_col = 0;
+        // horizontal
+        for(start_col = 0; start_col < playfield::width; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col, start_row - 1) == player_no &&
+                    stoneat(start_col, start_row - 2) == player_no &&
+                    stoneat(start_col, start_row - 3) == player_no) {
+                    return true;
                 }
             }
-            counter = 0;
         }
-        return has_won;
-    }
-
-    // check if player has won with 4 vertical stones
-    bool check_vertical(int player_no) {
-
-        bool has_won = false;
-        int counter = 0;
-
-        // for each column
-        for(int c = 0; c < playfield::width && !has_won; ++c) {
-
-            // for each row
-            for(int r = 0; r < playfield::height && !has_won; ++r) {
-                if(stoneat(c,r) == player_no) {
-                    ++counter;
-                } else {
-                    counter = 0;
-                }
-
-                if(counter == 4) {
-                    has_won = true;
+        // vertical
+        for(start_col = 0; start_col < playfield::width-3; start_col++){
+            for(int start_row = 0; start_row < playfield::height; start_row++){
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col + 1, start_row) == player_no &&
+                    stoneat(start_col + 2, start_row) == player_no &&
+                    stoneat(start_col + 3, start_row) == player_no) {
+                    return true;
                 }
             }
-            counter = 0;
         }
-        return has_won;
-    }
-
-    // check if player has won with 4 diagonal stones
-    bool check_diagonal(int player_no) {
-
-        bool has_won = false;
-        int counter = 0;
-
         // spans a parallelogram where the diagonal sides have length 4
-        // and the vertical sides playfield::height - 3
+        // and the vertical sides height - 3
         // the parallelogram is moved to the left until it reaches the last column
 
         // |      *
@@ -94,56 +62,30 @@ private:
         // ---------------
         //  0 1 2 3 4 5 6
 
+        // diagonal bottom left to top right
+        for(start_col = 0; start_col < playfield::width - 3; start_col++){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col + 1, start_row - 1) == player_no &&
+                    stoneat(start_col + 2, start_row - 2) == player_no &&
+                    stoneat(start_col + 3, start_row - 3) == player_no) {
+                    return true;
+                }
+            }
+        }
         // same principle for other diagonal, but from the other side
-        int start_col = 0;
-        // for every possible start col
-        for(start_col = 0; start_col < playfield::width-3; start_col++){
-            for(int start_row = 3; start_row < playfield::height; start_row++){
-                for (int h = 0 ; h < 4; ++h) {
-                    if(stoneat(start_col + h,start_row - h) == player_no) {
-                        ++counter;
-                    } else {
-                        counter = 0;
-                    }
-                    if(counter == 4) {
-                        has_won = true;
-                    }
+        // diagonal bottom right to top left
+        for(start_col = playfield::width - 1; start_col > 2; start_col--){
+            for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+                if (stoneat(start_col, start_row) == player_no &&
+                    stoneat(start_col - 1, start_row - 1) == player_no &&
+                    stoneat(start_col - 2, start_row - 2) == player_no &&
+                    stoneat(start_col - 3, start_row - 3) == player_no) {
+                    return true;
                 }
             }
         }
-        counter = 0;
-        for(start_col = playfield::width - 1; start_col >= 3; start_col--){
-            for(int start_row = 3; start_row < playfield::height; start_row++){
-                for (int h = 0 ; h < 4; ++h) {
-                    if(stoneat(start_col - h,start_row - h) == player_no) {
-                        ++counter;
-                    } else {
-                        counter = 0;
-                    }
-                    if(counter == 4) {
-                        has_won = true;
-                    }
-                }
-            }
-        }
-        return has_won;
-    }
-
-    bool check_win(int player_no) {
-
-        bool has_won = false;
-
-        has_won = check_horizontal(player_no);
-
-        if(!has_won) {
-            has_won = check_vertical(player_no);
-        }
-
-        if(!has_won) {
-            has_won = check_diagonal(player_no);
-        }
-
-        return has_won;
+        return false;
     }
     
     
@@ -221,7 +163,7 @@ public:
             my_player_no = player_turn();
         }
 
-        std::cout << "Renato & Christian's AI is thinking ... " << std::endl;
+        std::cout << "Renato & Christian's dumb AI is thinking ... " << std::endl;
 
         int selected_col = -1;
 
@@ -244,10 +186,9 @@ public:
 
         // if neither of the players can win, chose random
         if(selected_col == -1) {
-            std::random_device rd;
-            std::mt19937 gen(rd());
+
             std::uniform_int_distribution<> dis(1, (int) possible_col->size());
-            selected_col = possible_col->at((dis(gen) - 1));
+            selected_col = possible_col->at((dis(e) - 1));
         }
 
         std::cout << "Renato & Christian's dumb AI chose column: " << selected_col << std::endl;

@@ -10,16 +10,16 @@
 template <typename T>
 class limitedstack{
 private:
-    int limit = 255;
+    int limit = 256;
 
 public:
     std::stack<T> s;
-    limitedstack(std::stack<T> stack):s(stack){};
+    limitedstack(std::stack<T> stack): s(stack){};
     virtual void push(T e){
         if(s.size() < limit) {
             s.push(e);
         }else{
-            std::cout << "Limit of 255 exceeded" << std::endl;
+            std::cout << "Limit of 256 exceeded" << std::endl;
         }
     }
     void pop(){

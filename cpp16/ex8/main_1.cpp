@@ -11,7 +11,7 @@ int main(int argc, const char* argv[]){
     std::cout << "------------------------------------------------------------\n|		TASK 6.1 \n ------------------------------------------------------------"
               << std::endl;
 
-    connect4< my_playfield> game("cpu_dumb","cpu_dumb");
+    connect4< my_playfield> game("cpu_dumb","cpu_minimax");
     game.runGame();
 
     std::cout << "------------------------------------------------------------\n|		TASK 6.2 \n ------------------------------------------------------------"

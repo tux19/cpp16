@@ -46,6 +46,29 @@ my_playfield::~my_playfield(){
 bool my_playfield::check_win(int player_no) {
 
 
+    int start_col = 0;
+    // horizontal
+    for(start_col = 0; start_col < playfield::width; start_col++){
+        for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
+            if (stoneat(start_col, start_row) == player_no &&
+                stoneat(start_col, start_row - 1) == player_no &&
+                stoneat(start_col, start_row - 2) == player_no &&
+                stoneat(start_col, start_row - 3) == player_no) {
+                return true;
+            }
+        }
+    }
+    // vertical
+    for(start_col = 0; start_col < playfield::width-3; start_col++){
+        for(int start_row = 0; start_row < playfield::height; start_row++){
+            if (stoneat(start_col, start_row) == player_no &&
+                stoneat(start_col + 1, start_row) == player_no &&
+                stoneat(start_col + 2, start_row) == player_no &&
+                stoneat(start_col + 3, start_row) == player_no) {
+                return true;
+            }
+        }
+    }
     // spans a parallelogram where the diagonal sides have length 4
     // and the vertical sides height - 3
     // the parallelogram is moved to the left until it reaches the last column
@@ -59,31 +82,7 @@ bool my_playfield::check_win(int player_no) {
     // ---------------
     //  0 1 2 3 4 5 6
 
-    // same principle for other diagonal, but from the other side
-    int start_col = 0;
-    // for every possible start col
-    for(start_col = 0; start_col < playfield::width; start_col++){
-        for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
-            if (stoneat(start_col, start_row) == player_no &&
-                stoneat(start_col, start_row - 1) == player_no &&
-                stoneat(start_col, start_row - 2) == player_no &&
-                stoneat(start_col, start_row - 3) == player_no) {
-                return true;
-            }
-        }
-    }
-
-    for(start_col = 0; start_col < playfield::width-3; start_col++){
-        for(int start_row = 0; start_row < playfield::height; start_row++){
-            if (stoneat(start_col, start_row) == player_no &&
-                stoneat(start_col + 1, start_row) == player_no &&
-                stoneat(start_col + 2, start_row) == player_no &&
-                stoneat(start_col + 3, start_row) == player_no) {
-                return true;
-            }
-        }
-    }
-
+    // diagonal bottom left to top right
     for(start_col = 0; start_col < playfield::width - 3; start_col++){
         for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
             if (stoneat(start_col, start_row) == player_no &&
@@ -94,7 +93,8 @@ bool my_playfield::check_win(int player_no) {
             }
         }
     }
-
+    // same principle for other diagonal, but from the other side
+    // diagonal bottom right to top left
     for(start_col = playfield::width - 1; start_col > 2; start_col--){
         for(int start_row = playfield::height - 1; start_row > 2; start_row--) {
             if (stoneat(start_col, start_row) == player_no &&

@@ -23,9 +23,7 @@ public:
     ~my_playfield();
 
 
-    bool check_horizontal(int player_no);
-    bool check_vertical(int player_no);
-    bool check_diagonal(int player_no);
+
     bool check_win(int player_no);
     bool check_full();
     void print_field();

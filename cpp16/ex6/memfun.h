@@ -1,6 +1,4 @@
-//
-// Created by HEAD on 17.11.2016.
-//
+
 #include <iostream>
 #include <functional>
 #include <vector>
