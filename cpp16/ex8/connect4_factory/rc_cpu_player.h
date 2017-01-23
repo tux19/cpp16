@@ -160,11 +160,7 @@ private:
             }
         }
         return v;
-//        for(int i = 0; i < playfield::width; ++i) {
-//            if(stoneat(i,0) == playfield::none)
-//                v->push_back(i);
-//        }
-//        return v;
+
     }
 
     int try_line(int player, int col, int row, int colOffset, int rowOffset){
@@ -184,16 +180,7 @@ private:
             row += rowOffset;
         }
         return score;
-//        for(int count = 0; count < 3; ++count){
-//            col += colOffset;
-//            row += rowOffset;
-//            if(col >= playfield::width || row >= playfield::height || row < 0 || col < 0){
-//                return 0;
-//            }
-//            else if(stoneat(col, row) != player)
-//                return 0;
-//        }
-//        return 1;
+
     }
 
     int count_threats(int player, int col, int row){
@@ -240,16 +227,7 @@ private:
 
         win = count_winningrows( player);
         lose = count_winningrows( other_player);
-//        if(check_win(player)){
-//            win = 1;
-//            lose = 0;
-//        } else if(check_win(other_player)){
-//            win = 0;
-//            lose = 1;
-//        } else {
-//            win = 0;
-//            lose = 0;
-//        }
+
 
         int my_odd_threats = 0, their_odd_threats = 0;
         for(int row = 0; row < playfield::height; row +=2){
@@ -268,14 +246,14 @@ private:
         }
 
         // coefficients found via genetic algorithms (https://github.com/TJSomething/cs773c-connect4-minimax)
-//        std::vector<double> c{	0.2502943943301069,
-//                             -0.4952316649483701,
-//                             0.3932539700819625,
-//                             -0.2742452616759889,
-//                             0.4746881137884282,
-//                             0.2091091127191147};
+        std::vector<double> c{	0.2502943943301069,
+                             -0.4952316649483701,
+                             0.3932539700819625,
+                             -0.2742452616759889,
+                             0.4746881137884282,
+                             0.2091091127191147};
 
-        std::vector<double> c{	1,-1.2,0,0,0,0};
+        //std::vector<double> c{	1,-1.2,0,0,0,0};
 
         return 	(c.at(0) * win) +
                   (c.at(1) * lose) +

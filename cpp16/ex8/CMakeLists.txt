@@ -4,6 +4,8 @@ project(ex8_2 CXX)
 
 set(EX8_1 constdeconst.cpp
         constdeconst.h
+        spellchecker.h
+        spellchecker.cpp
 
         main_1.cpp
         connect4_factory/player.h
@@ -24,6 +26,8 @@ set(EX8_1 constdeconst.cpp
 
 set(EX8_2 constdeconst.cpp
         constdeconst.h
+        spellchecker.h
+        spellchecker.cpp
 
         main_2.cpp
         connect4_thread/player.h

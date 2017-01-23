@@ -1,6 +1,3 @@
-//
-// Created by Christian Ott on 21.01.2017.
-//
 
 #ifndef CPP16_PLAYER_FACTORY_H
 #define CPP16_PLAYER_FACTORY_H

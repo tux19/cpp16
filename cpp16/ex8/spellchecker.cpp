@@ -62,8 +62,3 @@ void spellchecker::run() {
     }
 
 }
-int main(){
-    spellchecker r;
-    r.run();
-    return 0;
-}
